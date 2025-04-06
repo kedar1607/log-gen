@@ -35,6 +35,19 @@ logger = logging.getLogger('rca_predictor')
 try:
     nltk.download('punkt', quiet=True)
     nltk.download('stopwords', quiet=True)
+    nltk.download('punkt_tab', quiet=True)
+    nltk.download('tokenizers/punkt/PY3/english.pickle', quiet=True)
+    # Create the required directory if it doesn't exist
+    import os
+    nltk_data_dir = os.path.expanduser('~/nltk_data')
+    if not os.path.exists(nltk_data_dir):
+        os.makedirs(nltk_data_dir)
+    if not os.path.exists(os.path.join(nltk_data_dir, 'tokenizers')):
+        os.makedirs(os.path.join(nltk_data_dir, 'tokenizers'))
+    if not os.path.exists(os.path.join(nltk_data_dir, 'tokenizers/punkt_tab')):
+        os.makedirs(os.path.join(nltk_data_dir, 'tokenizers/punkt_tab'))
+    if not os.path.exists(os.path.join(nltk_data_dir, 'tokenizers/punkt_tab/english')):
+        os.makedirs(os.path.join(nltk_data_dir, 'tokenizers/punkt_tab/english'))
 except Exception as e:
     logger.warning(f"Error downloading NLTK resources: {e}")
     pass  # Continue even if download fails
@@ -183,8 +196,17 @@ class TextPreprocessor:
         if not isinstance(text, str):
             return ""
         
-        # Lowercase and tokenize
-        tokens = word_tokenize(text.lower())
+        # Lowercase
+        text = text.lower()
+        
+        # Simple tokenization without relying on punkt_tab
+        try:
+            # Try to use nltk word_tokenize
+            tokens = word_tokenize(text)
+        except Exception as e:
+            # Fallback to simple space-based tokenization if word_tokenize fails
+            logger.warning(f"Falling back to simple tokenization: {e}")
+            tokens = text.split()
         
         # Remove stop words and non-alphabetic tokens
         tokens = [word for word in tokens if word.isalpha() and word not in self.stop_words]
