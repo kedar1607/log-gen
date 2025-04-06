@@ -236,14 +236,18 @@ class RCAPredictor:
             logger.error("No training issues with RCA found!")
             return None, None
             
+        # Convert summary and description to strings explicitly
+        train_issues['summary'] = train_issues['summary'].fillna('').astype(str)
+        train_issues['description'] = train_issues['description'].fillna('').astype(str)
+            
         # Extract text features from description and summary
         train_issues['processed_text'] = (
-            train_issues['summary'].fillna('') + ' ' + 
-            train_issues['description'].fillna('')
+            train_issues['summary'] + ' ' + 
+            train_issues['description']
         ).apply(self.preprocessor.preprocess)
         
         # Prepare X (features) and y (labels)
-        X = train_issues['processed_text']
+        X = train_issues['processed_text'].astype(str)
         
         # Use the root cause category directly from the CSV
         # Check if we have a structured RCA column or separate columns
@@ -372,13 +376,17 @@ class RCAPredictor:
             
         logger.info(f"Predicting RCA for {len(predict_issues)} issues")
         
+        # Convert summary and description to strings explicitly
+        predict_issues['summary'] = predict_issues['summary'].fillna('').astype(str)
+        predict_issues['description'] = predict_issues['description'].fillna('').astype(str)
+        
         # Prepare features
         predict_issues['processed_text'] = (
-            predict_issues['summary'].fillna('') + ' ' + 
-            predict_issues['description'].fillna('')
+            predict_issues['summary'] + ' ' + 
+            predict_issues['description']
         ).apply(self.preprocessor.preprocess)
         
-        X_pred = predict_issues['processed_text']
+        X_pred = predict_issues['processed_text'].astype(str)
         
         # Make predictions
         y_pred_prob = self.pipeline.predict_proba(X_pred)
