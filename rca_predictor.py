@@ -229,61 +229,80 @@ class RCAPredictor:
     
     def prepare_training_data(self, issues_df):
         """Prepare training data from issues with RCA"""
-        # Filter issues with RCA
-        train_issues = issues_df[issues_df['has_rca'] == True].copy()
+        # Filter issues with RCA - ensure boolean comparison
+        train_issues = issues_df[issues_df['has_rca'].astype(bool) == True].copy()
         
         if train_issues.empty:
             logger.error("No training issues with RCA found!")
             return None, None
             
-        # Convert summary and description to strings explicitly
-        train_issues['summary'] = train_issues['summary'].fillna('').astype(str)
-        train_issues['description'] = train_issues['description'].fillna('').astype(str)
-            
-        # Extract text features from description and summary
-        train_issues['processed_text'] = (
-            train_issues['summary'] + ' ' + 
-            train_issues['description']
-        ).apply(self.preprocessor.preprocess)
+        # Convert all text columns to strings explicitly to avoid dtype issues
+        text_columns = ['summary', 'description', 'key', 'status', 'priority']
+        for col in text_columns:
+            if col in train_issues.columns:
+                train_issues[col] = train_issues[col].fillna('').astype(str)
         
-        # Prepare X (features) and y (labels)
-        X = train_issues['processed_text'].astype(str)
+        # Safely combine text columns for processing
+        text_data = []
+        for _, row in train_issues.iterrows():
+            summary = str(row.get('summary', ''))
+            description = str(row.get('description', ''))
+            combined = summary + ' ' + description
+            # Apply preprocessing
+            processed = self.preprocessor.preprocess(combined)
+            text_data.append(processed)
         
-        # Use the root cause category directly from the CSV
-        # Check if we have a structured RCA column or separate columns
+        # Create DataFrame explicitly
+        text_series = pd.Series(text_data, index=train_issues.index)
+        train_issues['processed_text'] = text_series
+        
+        # Use strict string type for X
+        X = text_series.astype(str)
+        
+        # Handle root cause extraction
+        root_causes = []
+        
         if 'rca_root_cause_category' in train_issues.columns:
             # Use the direct column if available
-            train_issues['root_cause'] = train_issues['rca_root_cause_category']
+            for rc in train_issues['rca_root_cause_category']:
+                root_causes.append(str(rc) if pd.notnull(rc) else '')
             logger.info("Using rca_root_cause_category column for training")
         elif 'rca' in train_issues.columns:
             # Extract root cause from RCA JSON
-            def extract_root_cause(rca_json):
+            for rca_json in train_issues['rca']:
                 try:
-                    if isinstance(rca_json, str):
+                    if isinstance(rca_json, str) and rca_json.strip():
                         rca = json.loads(rca_json)
+                        rc = rca.get('root_cause_category', '')
+                    elif isinstance(rca_json, dict):
+                        rc = rca_json.get('root_cause_category', '')
                     else:
-                        rca = rca_json
-                    return rca.get('root_cause_category', '')
+                        rc = ''
+                    root_causes.append(str(rc))
                 except:
-                    return ''
-            
-            train_issues['root_cause'] = train_issues['rca'].apply(extract_root_cause)
+                    root_causes.append('')
             logger.info("Using rca JSON column for training")
         else:
             # Fallback to empty values
             logger.error("No RCA column found in training data!")
-            train_issues['root_cause'] = ''
+            root_causes = ['' for _ in range(len(train_issues))]
         
-        # One-hot encode the root causes
-        y = pd.get_dummies(train_issues['root_cause'])
+        # Create a new DataFrame with the root cause column
+        train_issues['root_cause'] = root_causes
         
-        # Ensure all categories are present
+        # One-hot encode the root causes - ensure all strings
+        # Filter out any empty or null values first
+        valid_root_causes = [rc for rc in root_causes if rc and rc.strip()]
+        if not valid_root_causes:
+            logger.error("No valid root causes found in data!")
+            return None, None
+            
+        # Manually create one-hot encoding to avoid dtype issues
+        y_data = {}
         for category in ROOT_CAUSE_CATEGORIES:
-            if category not in y.columns:
-                y[category] = 0
-        
-        # Keep only known categories
-        y = y[[c for c in y.columns if c in ROOT_CAUSE_CATEGORIES]]
+            y_data[category] = [1 if rc == category else 0 for rc in root_causes]
+            
+        y = pd.DataFrame(y_data, index=train_issues.index)
         
         # Store label mapping
         self.label_mapping = {i: label for i, label in enumerate(y.columns)}
@@ -367,8 +386,8 @@ class RCAPredictor:
             logger.error("Model not trained yet!")
             return issues_df
             
-        # Filter issues without RCA
-        predict_issues = issues_df[issues_df['has_rca'] == False].copy()
+        # Filter issues without RCA - ensure boolean comparison
+        predict_issues = issues_df[issues_df['has_rca'].astype(bool) == False].copy()
         
         if predict_issues.empty:
             logger.info("No issues without RCA found for prediction")
@@ -376,17 +395,28 @@ class RCAPredictor:
             
         logger.info(f"Predicting RCA for {len(predict_issues)} issues")
         
-        # Convert summary and description to strings explicitly
-        predict_issues['summary'] = predict_issues['summary'].fillna('').astype(str)
-        predict_issues['description'] = predict_issues['description'].fillna('').astype(str)
+        # Convert all text columns to strings explicitly to avoid dtype issues
+        text_columns = ['summary', 'description', 'key', 'status', 'priority']
+        for col in text_columns:
+            if col in predict_issues.columns:
+                predict_issues[col] = predict_issues[col].fillna('').astype(str)
         
-        # Prepare features
-        predict_issues['processed_text'] = (
-            predict_issues['summary'] + ' ' + 
-            predict_issues['description']
-        ).apply(self.preprocessor.preprocess)
+        # Safely combine text columns for processing
+        text_data = []
+        for _, row in predict_issues.iterrows():
+            summary = str(row.get('summary', ''))
+            description = str(row.get('description', ''))
+            combined = summary + ' ' + description
+            # Apply preprocessing
+            processed = self.preprocessor.preprocess(combined)
+            text_data.append(processed)
         
-        X_pred = predict_issues['processed_text'].astype(str)
+        # Create DataFrame explicitly
+        text_series = pd.Series(text_data, index=predict_issues.index)
+        predict_issues['processed_text'] = text_series
+        
+        # Use strict string type for X
+        X_pred = text_series.astype(str)
         
         # Make predictions
         y_pred_prob = self.pipeline.predict_proba(X_pred)
@@ -490,10 +520,16 @@ class RCAPredictor:
         predicted_df = pd.DataFrame(predicted_issues)
         
         # Merge with original dataframe (keep issues with RCA)
+        # Ensure proper boolean comparison
         result_df = pd.concat([
-            issues_df[issues_df['has_rca'] == True],
+            issues_df[issues_df['has_rca'].astype(bool) == True],
             predicted_df
         ])
+        
+        # Ensure consistent columns
+        for col in issues_df.columns:
+            if col not in result_df.columns:
+                result_df[col] = ''
         
         logger.info(f"RCA prediction completed for {len(predicted_issues)} issues")
         return result_df
