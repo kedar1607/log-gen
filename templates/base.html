@@ -85,10 +85,16 @@
                         <a class="nav-link" href="{{ url_for('generate_issues') }}">Generate Jira Issues</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('predict_rca') }}">ML Prediction</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('view_logs') }}">View Logs</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('view_issues') }}">View Issues</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('view_predicted_issues') }}">View Predictions</a>
                     </li>
                 </ul>
             </div>

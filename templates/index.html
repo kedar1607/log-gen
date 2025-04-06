@@ -11,7 +11,7 @@
 </div>
 
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-4">
         <div class="card">
             <div class="card-header bg-primary text-white">
                 <i class="bi bi-file-text"></i> Log Generator
@@ -31,7 +31,7 @@
         </div>
     </div>
     
-    <div class="col-md-6">
+    <div class="col-md-4">
         <div class="card">
             <div class="card-header bg-success text-white">
                 <i class="bi bi-kanban"></i> Jira Issue Generator
@@ -47,6 +47,26 @@
                     <li>Create detailed, realistic issue descriptions</li>
                 </ul>
                 <a href="{{ url_for('generate_issues') }}" class="btn btn-success">Generate Issues</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header bg-info text-white">
+                <i class="bi bi-robot"></i> ML RCA Prediction
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">AI-Powered Root Cause Analysis</h5>
+                <p class="card-text">
+                    Use machine learning to predict root causes for Jira issues that don't have RCA:
+                </p>
+                <ul>
+                    <li>Train on 80% of issues with known RCA</li>
+                    <li>Predict causes for remaining 20% of issues</li>
+                    <li>Get confidence scores and supporting evidence</li>
+                </ul>
+                <a href="{{ url_for('predict_rca') }}" class="btn btn-info">Predict RCA</a>
             </div>
         </div>
     </div>
@@ -86,8 +106,8 @@
                         <div class="card mb-3">
                             <div class="card-body text-center">
                                 <h1 class="display-4">3</h1>
-                                <p>Use data for training ML models</p>
-                                <a href="{{ url_for('view_issues') }}" class="btn btn-sm btn-outline-info">View & Download</a>
+                                <p>Use ML to predict missing RCA</p>
+                                <a href="{{ url_for('predict_rca') }}" class="btn btn-sm btn-outline-info">Predict RCA</a>
                             </div>
                         </div>
                     </div>

@@ -15,6 +15,9 @@ import pandas as pd
 from flask import Flask, render_template, request, redirect, url_for, flash, send_from_directory, jsonify
 import subprocess
 
+# Import the RCA predictor
+from rca_predictor import RCAPredictor, perform_rca_prediction, load_jira_issues, save_predicted_issues
+
 # Initialize Flask app
 app = Flask(__name__)
 app.secret_key = os.environ.get("SESSION_SECRET", "autorka-secret-key")
@@ -210,6 +213,87 @@ def jira_summary():
             summary['error'] = str(e)
     
     return jsonify(summary)
+
+@app.route('/predict-rca', methods=['GET', 'POST'])
+def predict_rca():
+    """Page for predicting RCA for issues without existing RCA"""
+    if request.method == 'POST':
+        try:
+            # Run the ML prediction
+            predicted_issues = perform_rca_prediction()
+            
+            if predicted_issues is not None:
+                total_issues = len(predicted_issues)
+                issues_with_rca = sum(predicted_issues['has_rca'] == True)
+                issues_predicted = sum(predicted_issues.get('predicted_rca', False))
+                
+                flash(f"Successfully predicted RCA for {issues_predicted} out of {total_issues - issues_with_rca} issues without RCA!", "success")
+                flash(f"Predictions saved to jira_issues/predicted_issues.csv", "info")
+            else:
+                flash("Error occurred during RCA prediction. Check logs for details.", "error")
+            
+            return redirect(url_for('view_predicted_issues'))
+        except Exception as e:
+            flash(f"Error in RCA prediction: {str(e)}", "error")
+            return redirect(url_for('view_issues'))
+    
+    # GET request - render the prediction form
+    return render_template('predict_rca.html')
+
+@app.route('/view-predicted-issues')
+def view_predicted_issues():
+    """Page for viewing predicted RCA results"""
+    predicted_file = os.path.join('jira_issues', 'predicted_issues.csv')
+    
+    if not os.path.exists(predicted_file):
+        flash("No predicted issues found. Run the RCA predictor first.", "warning")
+        return redirect(url_for('predict_rca'))
+    
+    try:
+        # Load predicted issues
+        df = pd.read_csv(predicted_file)
+        
+        # Basic statistics
+        stats = {
+            'total': len(df),
+            'with_original_rca': sum(df['has_rca'] == True),
+            'with_predicted_rca': sum(df.get('predicted_rca', False))
+        }
+        
+        # List of predicted issues with confidence scores
+        predicted_issues = []
+        for _, row in df.iterrows():
+            if row.get('predicted_rca', False):
+                issue_data = row.to_dict()
+                
+                # Extract RCA information
+                try:
+                    if isinstance(issue_data.get('rca'), str):
+                        rca_data = json.loads(issue_data['rca'])
+                    else:
+                        rca_data = issue_data.get('rca', {})
+                        
+                    issue_data['rca_category'] = rca_data.get('root_cause_category', 'Unknown')
+                    issue_data['confidence'] = rca_data.get('confidence', 0)
+                    issue_data['alternative_causes'] = rca_data.get('alternative_causes', [])
+                    issue_data['evidence'] = rca_data.get('supporting_evidence', [])
+                except Exception as e:
+                    issue_data['rca_category'] = 'Error parsing RCA'
+                    issue_data['confidence'] = 0
+                    issue_data['alternative_causes'] = []
+                    issue_data['evidence'] = []
+                
+                predicted_issues.append(issue_data)
+        
+        # Sort by confidence score
+        predicted_issues = sorted(predicted_issues, key=lambda x: x.get('confidence', 0), reverse=True)
+        
+        return render_template('view_predicted_issues.html', 
+                              stats=stats, 
+                              predicted_issues=predicted_issues)
+    except Exception as e:
+        flash(f"Error loading predicted issues: {str(e)}", "error")
+        return redirect(url_for('predict_rca'))
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)

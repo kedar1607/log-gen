@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+
+{% block title %}AutoRCA - View Predicted RCA{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12 text-center mb-4">
+        <h1>Predicted Root Cause Analysis</h1>
+        <p class="lead">Machine learning predictions for issues without RCA</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card mb-4">
+            <div class="card-header bg-success text-white">
+                <i class="bi bi-graph-up"></i> Prediction Summary
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="summary-widget">
+                            <div class="summary-number">{{ stats.total }}</div>
+                            <div class="summary-label">Total Issues</div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="summary-widget">
+                            <div class="summary-number">{{ stats.with_original_rca }}</div>
+                            <div class="summary-label">Issues with Original RCA</div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="summary-widget">
+                            <div class="summary-number">{{ stats.with_predicted_rca }}</div>
+                            <div class="summary-label">Issues with Predicted RCA</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center mt-3">
+                    <a href="{{ url_for('download_file', filename='jira_issues/predicted_issues.csv') }}" class="btn btn-primary">
+                        <i class="bi bi-download"></i> Download Predictions CSV
+                    </a>
+                    <a href="{{ url_for('predict_rca') }}" class="btn btn-outline-secondary ms-2">
+                        <i class="bi bi-arrow-repeat"></i> Run Again
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <i class="bi bi-list-check"></i> Predicted Issues
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <input type="text" id="issueSearch" class="form-control" placeholder="Search issues...">
+                </div>
+                
+                {% if predicted_issues %}
+                    {% for issue in predicted_issues %}
+                        <div class="jira-item jira-with-rca mb-4 issue-card">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <h5>
+                                        <span class="badge bg-secondary">{{ issue.key }}</span> 
+                                        {{ issue.summary }}
+                                    </h5>
+                                    <div class="mb-2">
+                                        <span class="badge bg-primary">{{ issue.issue_type }}</span>
+                                        <span class="badge bg-danger">{{ issue.priority }}</span>
+                                        <span class="badge bg-info">{{ issue.status }}</span>
+                                        <span class="badge bg-dark">{{ issue.service }}</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 text-end">
+                                    <h5>
+                                        <span class="badge {% if issue.confidence > 0.7 %}bg-success{% elif issue.confidence > 0.4 %}bg-warning{% else %}bg-danger{% endif %}">
+                                            Confidence: {{ (issue.confidence * 100)|round|int }}%
+                                        </span>
+                                    </h5>
+                                </div>
+                            </div>
+                            
+                            <div class="row mt-3">
+                                <div class="col-md-12">
+                                    <h6><i class="bi bi-search"></i> Predicted Root Cause:</h6>
+                                    <div class="alert alert-success">
+                                        <strong>{{ issue.rca_category }}</strong>
+                                    </div>
+                                    
+                                    {% if issue.alternative_causes and issue.alternative_causes|length > 0 %}
+                                        <h6 class="mt-3"><i class="bi bi-list-ul"></i> Alternative Causes:</h6>
+                                        <div class="list-group">
+                                            {% for alt in issue.alternative_causes %}
+                                                <div class="list-group-item d-flex justify-content-between align-items-center">
+                                                    {{ alt.category }}
+                                                    <span class="badge bg-secondary rounded-pill">{{ (alt.probability * 100)|round|int }}%</span>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                    
+                                    {% if issue.evidence and issue.evidence|length > 0 %}
+                                        <h6 class="mt-3"><i class="bi bi-file-text"></i> Supporting Evidence from Logs:</h6>
+                                        <div class="list-group">
+                                            {% for evidence in issue.evidence %}
+                                                <div class="list-group-item">
+                                                    <div class="d-flex w-100 justify-content-between">
+                                                        <h6 class="mb-1">{{ evidence.source }} ({{ evidence.level }})</h6>
+                                                        <small>Relevance: {{ evidence.relevance }}</small>
+                                                    </div>
+                                                    <p class="mb-1">{{ evidence.message }}</p>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="alert alert-info">
+                        No predicted issues found. Please run the ML prediction first.
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Issue search functionality
+        const searchInput = document.getElementById('issueSearch');
+        const issueCards = document.querySelectorAll('.issue-card');
+        
+        searchInput.addEventListener('keyup', function() {
+            const searchTerm = searchInput.value.toLowerCase();
+            
+            issueCards.forEach(card => {
+                const cardText = card.textContent.toLowerCase();
+                if (cardText.includes(searchTerm)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+        
+        // Make nav item active
+        const navLinks = document.querySelectorAll('.nav-link');
+        navLinks.forEach(link => {
+            if (link.getAttribute('href') === window.location.pathname) {
+                link.classList.add('active');
+            }
+        });
+    });
+</script>
+{% endblock %}

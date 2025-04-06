@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block title %}AutoRCA - ML Prediction{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12 text-center mb-4">
+        <h1>ML-Powered Root Cause Analysis</h1>
+        <p class="lead">Train a machine learning model on issues with RCA to predict root causes for issues without RCA</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <i class="bi bi-braces"></i> Machine Learning RCA Prediction
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">ML Model Configuration</h5>
+                <p class="card-text">
+                    The ML model will be trained on existing issues with RCA information (80% of dataset) and 
+                    predict root causes for the remaining 20% of issues without RCA. The model uses:
+                </p>
+                <ul>
+                    <li><strong>TF-IDF Vectorization</strong> to convert text descriptions to machine-readable features</li>
+                    <li><strong>Random Forest Classifier</strong> for multi-class prediction of root cause categories</li>
+                    <li><strong>Log Evidence Extraction</strong> to find supporting evidence in logs</li>
+                    <li><strong>Confidence Scoring</strong> to indicate prediction reliability</li>
+                </ul>
+                
+                <div class="text-center mt-4">
+                    <form method="POST" action="{{ url_for('predict_rca') }}">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-lightning-charge"></i> Run ML Prediction
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header bg-info text-white">
+                <i class="bi bi-info-circle"></i> How It Works
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title">Step 1: Training</h5>
+                                <p>The model is trained on issues with existing RCA information (80% of all issues).</p>
+                                <ul>
+                                    <li>Text from issue summaries and descriptions is processed</li>
+                                    <li>ML features are extracted to identify patterns</li>
+                                    <li>Model learns to associate issue characteristics with root causes</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title">Step 2: Prediction</h5>
+                                <p>The trained model predicts root causes for issues without RCA (20% of all issues).</p>
+                                <ul>
+                                    <li>Predictions include confidence scores</li>
+                                    <li>Alternative root causes are ranked by probability</li>
+                                    <li>Supporting log evidence is identified</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Step 3: Validation</h5>
+                                <p>The predicted RCAs can be validated by:</p>
+                                <ul>
+                                    <li>Checking confidence scores (higher is better)</li>
+                                    <li>Reviewing supporting log evidence</li>
+                                    <li>Comparing with alternative causes</li>
+                                    <li>Cross-referencing with similar known issues</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
