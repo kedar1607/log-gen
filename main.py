@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """
-UniteUs Log and Jira Issue Generator Web App
+AutoRCA Log and Jira Issue Generator Web App
 
 This web application provides a user interface for generating log data
-and Jira issues with RCA for the UniteUs application.
+and Jira issues with RCA for automatic Root Cause Analysis.
 
-Author: AI Assistant
+Author: Kedar Haldankar
 """
 
 import os
@@ -17,7 +17,7 @@ import subprocess
 
 # Initialize Flask app
 app = Flask(__name__)
-app.secret_key = os.environ.get("SESSION_SECRET", "unite-us-secret-key")
+app.secret_key = os.environ.get("SESSION_SECRET", "autorka-secret-key")
 
 # Ensure required directories exist
 os.makedirs('logs', exist_ok=True)

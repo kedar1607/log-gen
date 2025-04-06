@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """
-UniteUs Log Generator
+AutoRCA Log Generator
 
-This script generates realistic dummy log data for the UniteUs app across
+This script generates realistic dummy log data for applications across
 different log sources: DataDog, Analytics, and Backend. The generated logs
-are saved in CSV format for later analysis.
+are saved in CSV format for later analysis and RCA training.
 
-Author: AI Assistant
+Author: Kedar Haldankar
 """
 
 import argparse
@@ -33,7 +33,7 @@ logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 )
-logger = logging.getLogger("UniteUs Log Generator")
+logger = logging.getLogger("AutoRCA Log Generator")
 
 # Initialize Faker for generating realistic data
 fake = Faker()
@@ -85,8 +85,8 @@ class LogSource(Enum):
         """Returns all log sources"""
         return [cls.DATADOG, cls.ANALYTICS, cls.BACKEND]
 
-class UniteUsServices(Enum):
-    """Enum for different services in the UniteUs app"""
+class AppServices(Enum):
+    """Enum for different services in the application"""
     API_GATEWAY = "api-gateway"
     AUTH_SERVICE = "auth-service"
     USER_SERVICE = "user-service"
@@ -100,11 +100,11 @@ class UniteUsServices(Enum):
     
     @classmethod
     def random(cls):
-        """Returns a random UniteUs service"""
+        """Returns a random AutoRCA service"""
         return random.choice(list(cls))
 
 class UserActions(Enum):
-    """Enum for common user actions in the UniteUs app"""
+    """Enum for common user actions in the application"""
     LOGIN = "login"
     LOGOUT = "logout"
     CREATE_PROFILE = "create_profile"
@@ -195,19 +195,19 @@ class LogGenerator:
             else:
                 return round(random.uniform(300, 2000), 2)
     
-    def _generate_error_details(self, service: UniteUsServices) -> Dict:
+    def _generate_error_details(self, service: AppServices) -> Dict:
         """Generate realistic error details"""
         error_types = {
-            UniteUsServices.API_GATEWAY: ["RateLimitExceeded", "GatewayTimeout", "ServiceUnavailable"],
-            UniteUsServices.AUTH_SERVICE: ["AuthenticationFailed", "TokenExpired", "InvalidCredentials"],
-            UniteUsServices.USER_SERVICE: ["UserNotFound", "ValidationError", "DatabaseConnectionFailed"],
-            UniteUsServices.NOTIFICATION_SERVICE: ["DeliveryFailed", "TemplateNotFound", "QuotaExceeded"],
-            UniteUsServices.REFERRAL_SERVICE: ["InvalidReferralStatus", "ReferralNotFound", "PermissionDenied"],
-            UniteUsServices.REPORTING_SERVICE: ["ReportGenerationFailed", "DataFetchFailed", "InvalidParameters"],
-            UniteUsServices.SEARCH_SERVICE: ["SearchIndexCorrupted", "QueryTimeout", "IndexingError"],
-            UniteUsServices.FRONTEND: ["RenderingError", "ComponentCrashed", "StateManagementFailure"],
-            UniteUsServices.MOBILE_APP: ["NetworkError", "AppCrashed", "CacheCorruption"],
-            UniteUsServices.ADMIN_PORTAL: ["PermissionDenied", "BulkOperationFailed", "ConfigurationError"]
+            AppServices.API_GATEWAY: ["RateLimitExceeded", "GatewayTimeout", "ServiceUnavailable"],
+            AppServices.AUTH_SERVICE: ["AuthenticationFailed", "TokenExpired", "InvalidCredentials"],
+            AppServices.USER_SERVICE: ["UserNotFound", "ValidationError", "DatabaseConnectionFailed"],
+            AppServices.NOTIFICATION_SERVICE: ["DeliveryFailed", "TemplateNotFound", "QuotaExceeded"],
+            AppServices.REFERRAL_SERVICE: ["InvalidReferralStatus", "ReferralNotFound", "PermissionDenied"],
+            AppServices.REPORTING_SERVICE: ["ReportGenerationFailed", "DataFetchFailed", "InvalidParameters"],
+            AppServices.SEARCH_SERVICE: ["SearchIndexCorrupted", "QueryTimeout", "IndexingError"],
+            AppServices.FRONTEND: ["RenderingError", "ComponentCrashed", "StateManagementFailure"],
+            AppServices.MOBILE_APP: ["NetworkError", "AppCrashed", "CacheCorruption"],
+            AppServices.ADMIN_PORTAL: ["PermissionDenied", "BulkOperationFailed", "ConfigurationError"]
         }
         
         error_type = random.choice(error_types.get(service, ["UnknownError", "SystemFailure", "InternalError"]))
@@ -231,7 +231,7 @@ class LogGenerator:
     
     def _generate_datadog_log(self, timestamp: datetime.datetime) -> Dict:
         """Generate a single DataDog log entry"""
-        service = UniteUsServices.random()
+        service = AppServices.random()
         log_level = LogLevel.random(self.error_rate)
         is_error = log_level in [LogLevel.ERROR, LogLevel.CRITICAL, LogLevel.FATAL]
         
@@ -268,15 +268,15 @@ class LogGenerator:
             log_entry["request_id"] = error_details["request_id"]
             
             # Generate error message
-            if service == UniteUsServices.API_GATEWAY:
+            if service == AppServices.API_GATEWAY:
                 log_entry["message"] = f"Request failed: {error_details['error_type']} - Status 5xx returned to client"
-            elif service == UniteUsServices.AUTH_SERVICE:
+            elif service == AppServices.AUTH_SERVICE:
                 log_entry["message"] = f"Authentication error: {error_details['error_type']} for user {user_id if user_id else 'anonymous'}"
             else:
                 log_entry["message"] = f"Error in {service.value}: {error_details['error_type']}"
         else:
             # Generate normal operation messages
-            if service == UniteUsServices.API_GATEWAY:
+            if service == AppServices.API_GATEWAY:
                 endpoint = random.choice(["/api/users", "/api/referrals", "/api/reports", "/api/notifications", "/api/search"])
                 method = random.choice(["GET", "POST", "PUT", "DELETE"])
                 status = random.choice([200, 201, 204, 400, 401, 403, 404, 429])
@@ -284,11 +284,11 @@ class LogGenerator:
                 log_entry["endpoint"] = endpoint
                 log_entry["method"] = method
                 log_entry["status"] = status
-            elif service == UniteUsServices.AUTH_SERVICE:
+            elif service == AppServices.AUTH_SERVICE:
                 action = random.choice(["login", "logout", "token_refresh", "password_reset"])
                 log_entry["message"] = f"Auth {action} {'succeeded' if log_level == LogLevel.INFO else 'attempted'}"
                 log_entry["auth_action"] = action
-            elif service == UniteUsServices.USER_SERVICE:
+            elif service == AppServices.USER_SERVICE:
                 action = random.choice(["profile_view", "profile_update", "user_search", "user_created"])
                 log_entry["message"] = f"User service: {action}"
                 log_entry["user_action"] = action
@@ -296,11 +296,11 @@ class LogGenerator:
                 log_entry["message"] = f"{service.value} operation completed in {log_entry['latency_ms']}ms"
         
         # Add additional context based on service
-        if service == UniteUsServices.REFERRAL_SERVICE:
+        if service == AppServices.REFERRAL_SERVICE:
             log_entry["referral_id"] = f"ref-{fake.uuid4()[:8]}"
             log_entry["referral_type"] = random.choice(["medical", "housing", "food", "employment", "legal"])
             
-        elif service == UniteUsServices.NOTIFICATION_SERVICE:
+        elif service == AppServices.NOTIFICATION_SERVICE:
             log_entry["notification_type"] = random.choice(["email", "sms", "push", "in_app"])
             log_entry["notification_status"] = random.choice(["queued", "sent", "delivered", "failed", "read"])
         
@@ -345,7 +345,7 @@ class LogGenerator:
                 "https://google.com", 
                 "https://healthcare.gov", 
                 "https://communityresources.org", 
-                "https://uniteus.com"
+                "https://autorka.io"
             ])
         }
         
@@ -404,7 +404,7 @@ class LogGenerator:
     
     def _generate_backend_log(self, timestamp: datetime.datetime) -> Dict:
         """Generate a single Backend log entry"""
-        service = UniteUsServices.random()
+        service = AppServices.random()
         log_level = LogLevel.random(self.error_rate)
         is_error = log_level in [LogLevel.ERROR, LogLevel.CRITICAL, LogLevel.FATAL]
         
@@ -421,16 +421,16 @@ class LogGenerator:
         
         # Add operation context
         operations = {
-            UniteUsServices.API_GATEWAY: ["route_request", "validate_auth", "rate_limit", "transform_response"],
-            UniteUsServices.AUTH_SERVICE: ["verify_token", "generate_token", "check_permissions", "update_session"],
-            UniteUsServices.USER_SERVICE: ["get_user", "update_user", "create_user", "delete_user", "search_users"],
-            UniteUsServices.NOTIFICATION_SERVICE: ["send_notification", "process_template", "check_delivery_status"],
-            UniteUsServices.REFERRAL_SERVICE: ["create_referral", "update_status", "assign_referral", "complete_referral"],
-            UniteUsServices.REPORTING_SERVICE: ["generate_report", "aggregate_data", "export_report", "schedule_report"],
-            UniteUsServices.SEARCH_SERVICE: ["index_document", "search_query", "update_index", "optimize_index"],
-            UniteUsServices.FRONTEND: ["render_page", "load_data", "cache_assets", "client_hydration"],
-            UniteUsServices.MOBILE_APP: ["sync_data", "background_refresh", "push_registration"],
-            UniteUsServices.ADMIN_PORTAL: ["bulk_update", "user_management", "system_configuration", "audit_logs"]
+            AppServices.API_GATEWAY: ["route_request", "validate_auth", "rate_limit", "transform_response"],
+            AppServices.AUTH_SERVICE: ["verify_token", "generate_token", "check_permissions", "update_session"],
+            AppServices.USER_SERVICE: ["get_user", "update_user", "create_user", "delete_user", "search_users"],
+            AppServices.NOTIFICATION_SERVICE: ["send_notification", "process_template", "check_delivery_status"],
+            AppServices.REFERRAL_SERVICE: ["create_referral", "update_status", "assign_referral", "complete_referral"],
+            AppServices.REPORTING_SERVICE: ["generate_report", "aggregate_data", "export_report", "schedule_report"],
+            AppServices.SEARCH_SERVICE: ["index_document", "search_query", "update_index", "optimize_index"],
+            AppServices.FRONTEND: ["render_page", "load_data", "cache_assets", "client_hydration"],
+            AppServices.MOBILE_APP: ["sync_data", "background_refresh", "push_registration"],
+            AppServices.ADMIN_PORTAL: ["bulk_update", "user_management", "system_configuration", "audit_logs"]
         }
         
         operation = random.choice(operations.get(service, ["unknown_operation"]))
@@ -587,7 +587,7 @@ class LogGenerator:
 def parse_arguments():
     """Parse command line arguments"""
     parser = argparse.ArgumentParser(
-        description="Generate realistic dummy log data for UniteUs app"
+        description="Generate realistic dummy log data for application"
     )
     
     parser.add_argument(

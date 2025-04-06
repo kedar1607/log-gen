@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """
-UniteUs Jira Issue Generator
+AutoRCA Jira Issue Generator
 
-This script generates realistic Jira issues based on actual log data for the UniteUs app.
+This script generates realistic Jira issues based on actual log data.
 The generated issues include Root Cause Analysis (RCA) information for 80% of the cases
 and no RCA for 20% of cases, making it suitable for machine learning model training.
 
-Author: AI Assistant
+Author: Kedar Haldankar
 """
 
 import argparse
@@ -34,7 +34,7 @@ logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 )
-logger = logging.getLogger("UniteUs Jira Generator")
+logger = logging.getLogger("AutoRCA Jira Generator")
 
 # Initialize Faker for generating realistic data
 fake = Faker()
@@ -232,7 +232,7 @@ class JiraIssueGenerator:
     
     def _generate_issue_key(self) -> str:
         """Generate a realistic Jira issue key"""
-        project_keys = ["UNITE", "UUS", "SVCOPS", "INFRA", "DEVOPS", "PERF"]
+        project_keys = ["ARCA", "RCA", "SVCOPS", "INFRA", "DEVOPS", "PERF"]
         project = random.choice(project_keys)
         self.issue_counter += 1
         return f"{project}-{random.randint(1000, 9999)}"
