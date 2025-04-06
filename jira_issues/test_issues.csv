@@ -1,61 +1,55 @@
 affected_services,assignee,components,created_at,description,environment,has_rca,issue_type,key,priority,rca_affected_components,rca_description,rca_prevention_steps,rca_resolution_steps,rca_root_cause_category,reporter,resolved_at,status,summary
-['frontend'],Nicole Nguyen,['frontend'],2025-03-23 07:28:11,"## Issue Summary
+['api-gateway'],John Fields,['api-gateway'],2025-03-23 03:56:16,"## Issue Summary
+An RateLimitExceeded error was detected in the api-gateway service.
+
+**Impact**: This issue is impacting system performance.
+
+**Environment**: development
+
+## Related Logs
+```
+{
+  ""timestamp"": ""2025-03-23T03:10:16.221420"",
+  ""service"": ""api-gateway"",
+  ""level"": ""error"",
+  ""env"": ""development"",
+  ""host"": ""api-gateway-3.uniteusapp.io"",
+  ""trace_id"": ""trace-7f540c61-1cde-428c-9508-44dc245c1026"",
+  ""span_id"": ""span-a60483b9"",
+  ""latency_ms"": 1330.33,
+  ""message"": ""Request fai...
+```
+
+## Steps to Reproduce
+1. Trigger the specific operation in the api-gateway service
+2. Access the endpoint nan
+3. Observe the error or performance degradation
+
+",development,True,Bug,DEVOPS-4803,Critical,api-gateway,Resource limitations in api-gateway service.,Set up resource monitoring; Implement autoscaling; Load testing to determine limits,Increased CPU allocation; Optimized resource usage; Implemented backpressure mechanism,Resource Limitation,Shannon Taylor,2025-03-25 21:56:16,Testing,RateLimitExceeded detected in api-gateway service
+['frontend'],Mrs. Lorraine Hernandez,['frontend'],2025-03-23 14:31:16,"## Issue Summary
 An StateManagementFailure error was detected in the frontend service.
 
-**Impact**: This issue is impacting system performance.
+**Impact**: This issue is causing data inconsistency.
 
-**Environment**: production
+**Environment**: development
 
 ## Related Logs
 ```
 {
-  ""timestamp"": ""2025-03-23T06:48:11.730859"",
+  ""timestamp"": ""2025-03-23T14:10:16.357914"",
   ""service"": ""frontend"",
-  ""level"": ""error"",
-  ""env"": ""production"",
-  ""host"": ""frontend-5.uniteusapp.io"",
-  ""trace_id"": ""trace-ab112e74-24c8-40f5-9825-abc804907ae0"",
-  ""span_id"": ""span-1f268491"",
-  ""latency_ms"": 9182.45,
-  ""usr_id"": ""user_7e1d3df1"",
-  ""...
+  ""level"": ""critical"",
+  ""env"": ""development"",
+  ""host"": ""frontend-1.uniteusapp.io"",
+  ""trace_id"": ""trace-6e4a0d5d-1550-443d-ad3f-57b3dfb076ef"",
+  ""span_id"": ""span-b9eb31ef"",
+  ""latency_ms"": 2986.67,
+  ""message"": ""Error in front...
 ```
 
-## Steps to Reproduce
-1. Trigger the specific operation in the frontend service
-2. Access the endpoint nan
-3. Observe the error or performance degradation
-
-",production,True,Bug,ARCA-3064,Critical,frontend,Issue was identified as a code bug in the frontend service.,Improve code review process; Add more comprehensive unit tests; Consider static code analysis,Fixed conditional logic in frontend handler; Added unit tests to cover edge case; Deployed hotfix to production,Code Bug,Leslie Farrell,2025-03-25 06:28:11,In Progress,StateManagementFailure detected in frontend service
-['referral-service'],Desiree Lewis,['referral-service'],2025-03-23 15:00:32,"## Issue Summary
-An ReferralNotFound error was detected in the referral-service service.
-
-**Impact**: This issue is impacting system performance.
-
-**Environment**: production
-
-## Related Logs
-```
-{
-  ""timestamp"": ""2025-03-23T14:14:32.925871"",
-  ""service"": ""referral-service"",
-  ""level"": ""fatal"",
-  ""env"": ""production"",
-  ""host"": ""referral-service-3.uniteusapp.io"",
-  ""trace_id"": ""trace-c7de2ff5-7e4d-4740-9aea-515fe64eb522"",
-  ""span_id"": ""span-a570d600"",
-  ""latency_ms"": 7257.17,
-  ""usr_id"": ""use...
-```
-
-## Steps to Reproduce
-1. Trigger the specific operation in the referral-service service
-2. Access the endpoint nan
-3. Observe the error or performance degradation
-
-",production,True,Bug,INFRA-5197,Blocker,referral-service,Data corruption detected in referral-service service.,Implement data validation; Regular data integrity checks; Improve backup strategy,Restored data from backup; Fixed data validation logic; Added data integrity checks,Data Corruption,Rebecca Roberts,2025-03-28 22:00:32,Closed,ReferralNotFound detected in referral-service service
-['notification-service'],Allison Barrett,['notification-service'],2025-03-23 12:26:32,"## Issue Summary
-An DeliveryFailed error was detected in the notification-service service.
+",development,False,Incident,ARCA-5344,Blocker,,,,,,Nicholas Diaz,,In Progress,frontend: StateManagementFailure causing service disruption
+['mobile-app'],David Perez,['mobile-app'],2025-03-23 13:57:04,"## Issue Summary
+An CacheCorruption error was detected in the mobile-app service.
 
 **Impact**: This issue is impacting system performance.
 
@@ -64,53 +58,182 @@ An DeliveryFailed error was detected in the notification-service service.
 ## Related Logs
 ```
 {
-  ""timestamp"": ""2025-03-23T12:08:32.125655"",
-  ""service"": ""notification-service"",
-  ""level"": ""error"",
+  ""timestamp"": ""2025-03-23T12:10:04.654602"",
+  ""service"": ""mobile-app"",
+  ""level"": ""critical"",
   ""env"": ""staging"",
-  ""host"": ""notification-service-2.uniteusapp.io"",
-  ""trace_id"": ""trace-f1f0ea7a-a084-48a1-9b34-345ee10f180d"",
-  ""span_id"": ""span-eb111c79"",
-  ""latency_ms"": 3817.15,
-  ""usr_id"":...
+  ""host"": ""mobile-app-1.uniteusapp.io"",
+  ""trace_id"": ""trace-0a1c6f6b-0047-41d8-ac46-592f9d7c8984"",
+  ""span_id"": ""span-5a5bc106"",
+  ""latency_ms"": 7323.64,
+  ""message"": ""Error in mobil...
 ```
 
-## Steps to Reproduce
-1. Trigger the specific operation in the notification-service service
-2. Access the endpoint nan
-3. Observe the error or performance degradation
+",staging,False,Bug,DEVOPS-1335,Blocker,,,,,,Mr. Craig Oconnell,,Open,CacheCorruption detected in mobile-app service
+['api-gateway'],Joseph Hill,['api-gateway'],2025-03-24 07:15:37,"## Issue Summary
+An ServiceUnavailable error was detected in the api-gateway service.
 
-",staging,True,Incident,RCA-8376,Critical,notification-service; payment processor,External dependency failure affecting notification-service service.,Develop SLAs with external providers; Implement circuit breakers; Create fallback mechanisms,Coordinated with payment processor team to resolve issue; Implemented fallback mechanism; Added better error handling,External Dependency Failure,Eric Morris,2025-03-25 20:26:32,Closed,notification-service: DeliveryFailed causing service disruption
-['referral-service'],Michael Allen,['referral-service'],2025-03-29 12:18:24,"## Issue Summary
-An nan error was detected in the referral-service service.
+**Impact**: This issue is causing data inconsistency.
+
+**Environment**: development
+
+## Related Logs
+```
+{
+  ""timestamp"": ""2025-03-24T06:08:37.374121"",
+  ""service"": ""api-gateway"",
+  ""level"": ""fatal"",
+  ""env"": ""development"",
+  ""host"": ""api-gateway-5.uniteusapp.io"",
+  ""trace_id"": ""trace-fcee12a2-1a41-4c2e-b929-e4e90cb20879"",
+  ""span_id"": ""span-dd242224"",
+  ""latency_ms"": 3185.0,
+  ""message"": ""Request fail...
+```
+
+",development,False,Incident,ARCA-4431,Blocker,,,,,,Traci Smith,,In Progress,api-gateway experiencing ServiceUnavailable
+['reporting-service'],David Hill,['reporting-service'],2025-03-23 13:58:36,"## Issue Summary
+An DataFetchFailed error was detected in the reporting-service service.
 
 **Impact**: This issue is causing service disruption.
 
+**Environment**: development
+
+## Related Logs
+```
+{
+  ""timestamp"": ""2025-03-23T12:53:36.191160"",
+  ""service"": ""reporting-service"",
+  ""level"": ""fatal"",
+  ""env"": ""development"",
+  ""host"": ""reporting-service-1.uniteusapp.io"",
+  ""trace_id"": ""trace-644cb6c5-0207-4ce1-a4f2-193c39db67cc"",
+  ""span_id"": ""span-2697778f"",
+  ""latency_ms"": 2562.92,
+  ""message"": ...
+```
+
+## Steps to Reproduce
+1. Trigger the specific operation in the reporting-service service
+2. Access the endpoint nan
+3. Observe the error or performance degradation
+
+",development,True,Bug,ARCA-4966,Blocker,reporting-service,Memory leak detected in reporting-service service.,Memory profiling in testing; Set up memory usage monitoring; Regular performance reviews,Fixed resource cleanup in service; Added proper object disposal; Optimized memory usage,Memory Leak,Amanda Sloan,2025-03-29 20:58:36,Closed,reporting-service experiencing DataFetchFailed
+['mobile-app'],Bryce Guzman,['mobile-app'],2025-03-23 02:15:30,"## Issue Summary
+An NetworkError error was detected in the mobile-app service.
+
+**Impact**: This issue is affecting user experience.
+
+**Environment**: production
+
+## Related Logs
+```
+{
+  ""timestamp"": ""2025-03-22T21:11:44.400977"",
+  ""service"": ""mobile-app"",
+  ""level"": ""critical"",
+  ""env"": ""production"",
+  ""host"": ""mobile-app-1.uniteusapp.io"",
+  ""trace_id"": ""trace-6d314787-b4fb-4d5a-...
+---
+{
+  ""timestamp"": ""2025-03-22T23:02:08.932304"",
+  ""service"": ""mobile-app"",
+  ""level"": ""error"",
+  ""env"": ""staging"",
+  ""host"": ""mobile-app-1.uniteusapp.io"",
+  ""trace_id"": ""trace-48913a59-83be-4a0a-8047-4...
+```
+
+## Steps to Reproduce
+1. Trigger the specific operation in the mobile-app service
+2. Access the endpoint nan
+3. Observe the error or performance degradation
+
+",production,True,Bug,ARCA-4162,Critical,mobile-app,Network connectivity issues impacting mobile-app service.,Improve network monitoring; Implement more robust error handling; Design for network failure resilience,Increased connection timeouts; Implemented retry mechanism; Added circuit breaker pattern,Network Issue,Kimberly Ortega,2025-03-28 13:15:30,Closed,mobile-app: NetworkError causing service disruption
+['reporting-service'],Melanie Nelson,['reporting-service'],2025-03-24 02:09:50,"## Issue Summary
+An DataFetchFailed error was detected in the reporting-service service.
+
+**Impact**: This issue is resulting in intermittent failures.
+
+**Environment**: development
+
+## Related Logs
+```
+{
+  ""timestamp"": ""2025-03-24T01:47:50.282042"",
+  ""service"": ""reporting-service"",
+  ""level"": ""error"",
+  ""env"": ""development"",
+  ""host"": ""reporting-service-3.uniteusapp.io"",
+  ""trace_id"": ""trace-2a924c99-4b59-4e25-9c69-e60e11f00d59"",
+  ""span_id"": ""span-711795d3"",
+  ""latency_ms"": 7469.28,
+  ""message"": ...
+```
+
+## Steps to Reproduce
+1. Trigger the specific operation in the reporting-service service
+2. Access the endpoint nan
+3. Observe the error or performance degradation
+
+",development,True,Incident,INFRA-6235,Critical,reporting-service,Database issue affecting reporting-service service operations.,Implement database monitoring; Regular database maintenance; Review query execution plans,Fixed database connection pooling; Optimized query execution plan; Added index to improve query performance,Database Issue,Andrew Garcia MD,2025-03-29 18:09:50,Done,reporting-service: DataFetchFailed causing service disruption
+['reporting-service'],Kristina Walton,['reporting-service'],2025-03-23 09:44:57,"## Issue Summary
+An DataFetchFailed error was detected in the reporting-service service.
+
+**Impact**: This issue is resulting in intermittent failures.
+
 **Environment**: staging
 
 ## Related Logs
 ```
 {
-  ""timestamp"": ""2025-03-29T11:08:24.645668"",
-  ""service"": ""referral-service"",
-  ""level"": ""warn"",
+  ""timestamp"": ""2025-03-23T07:57:57.731115"",
+  ""service"": ""reporting-service"",
+  ""level"": ""fatal"",
   ""env"": ""staging"",
-  ""host"": ""referral-service-4.uniteusapp.io"",
-  ""trace_id"": ""trace-ef040cd6-73a5-482d-a935-89e9b75e4f48"",
-  ""span_id"": ""span-c29fcd47"",
-  ""latency_ms"": 1604.11,
-  ""usr_id"": NaN,
-  ""...
+  ""host"": ""reporting-service-3.uniteusapp.io"",
+  ""trace_id"": ""trace-097f65be-d44a-4a09-b9e4-6a644fbae03b"",
+  ""span_id"": ""span-328da7bf"",
+  ""latency_ms"": 7663.14,
+  ""message"": ""Err...
 ```
 
 ## Steps to Reproduce
-1. Trigger the specific operation in the referral-service service
+1. Trigger the specific operation in the reporting-service service
 2. Access the endpoint nan
 3. Observe the error or performance degradation
 
-",staging,True,Incident,SVCOPS-7644,Major,referral-service,Data corruption detected in referral-service service.,Implement data validation; Regular data integrity checks; Improve backup strategy,Restored data from backup; Fixed data validation logic; Added data integrity checks,Data Corruption,Joanna Porter,2025-03-30 21:18:24,Done,nan in referral-service
-['api-gateway'],Paul Goodman,['api-gateway'],2025-03-23 15:00:26,"## Issue Summary
-An RateLimitExceeded error was detected in the api-gateway service.
+",staging,True,Bug,ARCA-7626,Blocker,reporting-service,Memory leak detected in reporting-service service.,Memory profiling in testing; Set up memory usage monitoring; Regular performance reviews,Fixed resource cleanup in service; Added proper object disposal; Optimized memory usage,Memory Leak,Jennifer Martinez,2025-03-26 09:44:57,Closed,DataFetchFailed in reporting-service
+['search-service'],Caitlin Williams,['search-service'],2025-03-23 19:59:35,"## Issue Summary
+An SearchIndexCorrupted error was detected in the search-service service.
+
+**Impact**: This issue is affecting user experience.
+
+**Environment**: production
+
+## Related Logs
+```
+{
+  ""timestamp"": ""2025-03-23T19:20:35.244130"",
+  ""service"": ""search-service"",
+  ""level"": ""critical"",
+  ""env"": ""production"",
+  ""host"": ""search-service-1.uniteusapp.io"",
+  ""trace_id"": ""trace-9e7de605-a045-49cf-a193-131e0e0f4a44"",
+  ""span_id"": ""span-afa0065b"",
+  ""latency_ms"": 8850.74,
+  ""message"": ""Err...
+```
+
+## Steps to Reproduce
+1. Trigger the specific operation in the search-service service
+2. Access the endpoint nan
+3. Observe the error or performance degradation
+
+",production,True,Bug,PERF-6576,Blocker,search-service,Data corruption detected in search-service service.,Implement data validation; Regular data integrity checks; Improve backup strategy,Restored data from backup; Fixed data validation logic; Added data integrity checks,Data Corruption,Haley Quinn,2025-03-28 06:59:35,Done,search-service: SearchIndexCorrupted causing service disruption
+['mobile-app'],Connie Wells,['mobile-app'],2025-03-23 23:15:44,"## Issue Summary
+An CacheCorruption error was detected in the mobile-app service.
 
 **Impact**: This issue is affecting user experience.
 
@@ -119,148 +242,15 @@ An RateLimitExceeded error was detected in the api-gateway service.
 ## Related Logs
 ```
 {
-  ""timestamp"": ""2025-03-23T13:47:26.132155"",
-  ""service"": ""api-gateway"",
-  ""level"": ""critical"",
-  ""env"": ""staging"",
-  ""host"": ""api-gateway-4.uniteusapp.io"",
-  ""trace_id"": ""trace-4564967d-c8cd-4bd6-9fbf-0b058c326a64"",
-  ""span_id"": ""span-3fa237bd"",
-  ""latency_ms"": 7961.99,
-  ""usr_id"": ""user_5419f25c...
-```
-
-## Steps to Reproduce
-1. Trigger the specific operation in the api-gateway service
-2. Access the endpoint nan
-3. Observe the error or performance degradation
-
-",staging,True,Bug,DEVOPS-2533,Blocker,api-gateway,Misconfiguration in api-gateway service settings.,Implement configuration validation; Add configuration tests in deployment pipeline; Document configuration requirements,Updated configuration parameters; Corrected environment variables; Redeployed service with proper settings,Configuration Error,Juan Young,2025-03-29 09:00:26,In Progress,api-gateway experiencing RateLimitExceeded
-['admin-portal'],Gloria Blake,['admin-portal'],2025-03-23 07:45:06,"## Issue Summary
-An BulkOperationFailed error was detected in the admin-portal service.
-
-**Impact**: This issue is impacting system performance.
-
-**Environment**: production
-
-## Related Logs
-```
-{
-  ""timestamp"": ""2025-03-23T06:23:06.073282"",
-  ""service"": ""admin-portal"",
-  ""level"": ""error"",
-  ""env"": ""production"",
-  ""host"": ""admin-portal-4.uniteusapp.io"",
-  ""trace_id"": ""trace-0f3e38c2-e56f-4a79-a8db-8b129af00d7d"",
-  ""span_id"": ""span-b471a74c"",
-  ""latency_ms"": 4005.41,
-  ""usr_id"": ""user_572e95...
-```
-
-## Steps to Reproduce
-1. Trigger the specific operation in the admin-portal service
-2. Access the endpoint nan
-3. Observe the error or performance degradation
-
-",production,True,Incident,RCA-6836,Critical,admin-portal,Resource limitations in admin-portal service.,Set up resource monitoring; Implement autoscaling; Load testing to determine limits,Increased memory allocation; Optimized resource usage; Implemented backpressure mechanism,Resource Limitation,Zachary Ferguson,2025-03-27 22:45:06,Done,BulkOperationFailed in admin-portal
-['search-service'],Christina Anderson,['search-service'],2025-03-24 04:37:51,"## Issue Summary
-An QueryTimeout error was detected in the search-service service.
-
-**Impact**: This issue is causing data inconsistency.
-
-**Environment**: development
-
-## Related Logs
-```
-{
-  ""timestamp"": ""2025-03-24T03:17:51.674746"",
-  ""service"": ""search-service"",
-  ""level"": ""critical"",
-  ""env"": ""development"",
-  ""host"": ""search-service-2.uniteusapp.io"",
-  ""trace_id"": ""trace-7ec93dcf-9626-4740-b856-1868f2c22697"",
-  ""span_id"": ""span-f6657d19"",
-  ""latency_ms"": 5800.76,
-  ""usr_id"": ""use...
-```
-
-",development,False,Incident,ARCA-9739,Blocker,,,,,,Nicholas Moody,,In Progress,search-service: QueryTimeout causing service disruption
-['mobile-app'],Donna Bryant,['mobile-app'],2025-03-23 08:16:11,"## Issue Summary
-An AppCrashed error was detected in the mobile-app service.
-
-**Impact**: This issue is causing data inconsistency.
-
-**Environment**: development
-
-## Related Logs
-```
-{
-  ""timestamp"": ""2025-03-23T07:39:11.890534"",
+  ""timestamp"": ""2025-03-23T21:33:44.707413"",
   ""service"": ""mobile-app"",
-  ""level"": ""fatal"",
-  ""env"": ""development"",
-  ""host"": ""mobile-app-2.uniteusapp.io"",
-  ""trace_id"": ""trace-ecd2e201-6956-4311-8afc-272810e00e84"",
-  ""span_id"": ""span-4e63a1b5"",
-  ""latency_ms"": 1614.18,
-  ""usr_id"": NaN,
-  ""usr_ip""...
-```
-
-## Steps to Reproduce
-1. Trigger the specific operation in the mobile-app service
-2. Access the endpoint nan
-3. Observe the error or performance degradation
-
-",development,True,Bug,RCA-1886,Blocker,mobile-app,Issue was identified as a code bug in the mobile-app service.,Improve code review process; Add more comprehensive unit tests; Consider static code analysis,Fixed conditional logic in mobile-app handler; Added unit tests to cover edge case; Deployed hotfix to production,Code Bug,Tiffany Gonzalez DVM,2025-03-24 00:16:11,Closed,mobile-app experiencing AppCrashed
-['api-gateway'],Austin Phillips,['api-gateway'],2025-03-23 20:08:02,"## Issue Summary
-An RateLimitExceeded error was detected in the api-gateway service.
-
-**Impact**: This issue is causing service disruption.
-
-**Environment**: development
-
-## Related Logs
-```
-{
-  ""timestamp"": ""2025-03-23T19:16:02.233321"",
-  ""service"": ""api-gateway"",
-  ""level"": ""fatal"",
-  ""env"": ""development"",
-  ""host"": ""api-gateway-4.uniteusapp.io"",
-  ""trace_id"": ""trace-02a67823-666f-4435-9f16-7098e0f01ef1"",
-  ""span_id"": ""span-3a6da93d"",
-  ""latency_ms"": 2924.99,
-  ""usr_id"": ""user_ff8cb89...
-```
-
-## Steps to Reproduce
-1. Trigger the specific operation in the api-gateway service
-2. Access the endpoint nan
-3. Observe the error or performance degradation
-
-",development,True,Bug,ARCA-1238,Blocker,api-gateway,Misconfiguration in api-gateway service settings.,Implement configuration validation; Add configuration tests in deployment pipeline; Document configuration requirements,Updated configuration parameters; Corrected environment variables; Redeployed service with proper settings,Configuration Error,Victor Briggs,2025-03-27 01:08:02,Done,RateLimitExceeded detected in api-gateway service
-['referral-service'],Carolyn Greene,['referral-service'],2025-03-24 01:47:40,"## Issue Summary
-An InvalidReferralStatus error was detected in the referral-service service.
-
-**Impact**: This issue is causing data inconsistency.
-
-**Environment**: development
-
-## Related Logs
-```
-{
-  ""timestamp"": ""2025-03-22T22:34:04.591090"",
-  ""service"": ""referral-service"",
   ""level"": ""critical"",
   ""env"": ""staging"",
-  ""host"": ""referral-service-1.uniteusapp.io"",
-  ""trace_id"": ""trace-6090245d-1...
+  ""host"": ""mobile-app-5.uniteusapp.io"",
+  ""trace_id"": ""trace-73c6fadd-ef2e-498e-9491-c478d86ad3f5"",
+  ""span_id"": ""span-2fff8af9"",
+  ""latency_ms"": 9342.29,
+  ""message"": ""Error in mobil...
 ```
 
-## Steps to Reproduce
-1. Trigger the specific operation in the referral-service service
-2. Access the endpoint nan
-3. Observe the error or performance degradation
-
-",development,True,Bug,DEVOPS-6890,Blocker,referral-service,Data corruption detected in referral-service service.,Implement data validation; Regular data integrity checks; Improve backup strategy,Restored data from backup; Fixed data validation logic; Added data integrity checks,Data Corruption,Marc Fry,2025-03-29 10:47:40,Testing,InvalidReferralStatus detected in referral-service service
+",staging,False,Incident,RCA-9006,Blocker,,,,,,Natasha Duncan,,Open,mobile-app experiencing CacheCorruption

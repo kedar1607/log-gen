@@ -434,7 +434,15 @@ class RCAPredictor:
             
             for i, estimator in enumerate(self.pipeline.named_steps['classifier'].estimators_):
                 label = self.label_mapping.get(i, f"Label_{i}")
-                prob = y_pred_prob[i][idx][1]  # Probability of positive class
+                
+                # Handle the case where probability array might only have one element (binary classification)
+                if y_pred_prob[i][idx].size > 1:
+                    # Standard case - get probability of positive class
+                    prob = y_pred_prob[i][idx][1]
+                else:
+                    # Edge case - only one class, use the single probability
+                    prob = y_pred_prob[i][idx][0]
+                
                 issue_probs.append((label, prob))
                 
                 if prob > max_prob:
@@ -622,8 +630,16 @@ def main():
     if predicted_issues is not None:
         # Calculate statistics
         total_issues = len(predicted_issues)
-        issues_with_rca = sum(predicted_issues['has_rca'] == True)
-        issues_predicted = sum(predicted_issues.get('predicted_rca', False))
+        
+        # Handle different datatypes properly
+        predicted_issues['has_rca'] = predicted_issues['has_rca'].astype(bool)
+        if 'predicted_rca' in predicted_issues.columns:
+            predicted_issues['predicted_rca'] = predicted_issues['predicted_rca'].astype(bool)
+            issues_predicted = sum(predicted_issues['predicted_rca'])
+        else:
+            issues_predicted = 0
+            
+        issues_with_rca = sum(predicted_issues['has_rca'])
         
         logger.info("RCA prediction completed successfully!")
         logger.info(f"Total issues: {total_issues}")
