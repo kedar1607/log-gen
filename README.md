@@ -28,3 +28,4 @@ You can install required packages using:
 
 ```bash
 pip install pandas faker
+# log-gen
