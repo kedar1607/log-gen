@@ -728,25 +728,79 @@ class JiraIssueGenerator:
         """Save generated issues to CSV file"""
         output_path = os.path.join(self.output_directory, 'jira_issues.csv')
         
+        # Define all possible RCA fields to ensure consistency
+        rca_fields = [
+            'rca_root_cause_category', 
+            'rca_affected_components', 
+            'rca_resolution_steps', 
+            'rca_prevention_steps', 
+            'rca_description'
+        ]
+        
         # Prepare data for CSV export
         csv_data = []
         for issue in issues:
             # Flatten RCA data for CSV
             row = issue.copy()
+            
+            # Initialize all RCA fields with empty strings for consistency
+            for field in rca_fields:
+                if field not in row:
+                    row[field] = ''
+            
             if issue.get('rca'):
                 for key, value in issue['rca'].items():
                     if isinstance(value, list):
                         row[f'rca_{key}'] = '; '.join(value)
                     else:
                         row[f'rca_{key}'] = value
-                del row['rca']
+                
+                # Set the specific RCA fields from the dictionary
+                if 'root_cause_category' in issue['rca']:
+                    row['rca_root_cause_category'] = issue['rca']['root_cause_category']
+                if 'affected_components' in issue['rca']:
+                    if isinstance(issue['rca']['affected_components'], list):
+                        row['rca_affected_components'] = '; '.join(issue['rca']['affected_components'])
+                    else:
+                        row['rca_affected_components'] = issue['rca']['affected_components']
+                if 'resolution_steps' in issue['rca']:
+                    if isinstance(issue['rca']['resolution_steps'], list):
+                        row['rca_resolution_steps'] = '; '.join(issue['rca']['resolution_steps'])
+                    else:
+                        row['rca_resolution_steps'] = issue['rca']['resolution_steps']
+                if 'prevention_steps' in issue['rca']:
+                    if isinstance(issue['rca']['prevention_steps'], list):
+                        row['rca_prevention_steps'] = '; '.join(issue['rca']['prevention_steps'])
+                    else:
+                        row['rca_prevention_steps'] = issue['rca']['prevention_steps']
+                if 'description' in issue['rca']:
+                    row['rca_description'] = issue['rca']['description']
+                
+                # Remove the original rca field
+                if 'rca' in row:
+                    del row['rca']
+            
             csv_data.append(row)
         
-        # Define CSV fields
+        # Get all possible field names
+        all_fields = set()
+        for row in csv_data:
+            all_fields.update(row.keys())
+        
+        # Make sure all RCA fields are included
+        all_fields.update(rca_fields)
+        
+        # Convert to list and sort for consistent columns
+        fieldnames = sorted(list(all_fields))
+        
+        # Ensure every row has all fields
+        for row in csv_data:
+            for field in fieldnames:
+                if field not in row:
+                    row[field] = ''
+        
+        # Write to CSV
         if csv_data:
-            fieldnames = list(csv_data[0].keys())
-            
-            # Write to CSV
             with open(output_path, 'w', newline='') as csvfile:
                 writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
                 writer.writeheader()
@@ -783,6 +837,14 @@ class JiraIssueGenerator:
             # Create the splits
             train_df = issues_df.iloc[:train_count]
             test_df = issues_df.iloc[train_count:]
+            
+            # Ensure all columns match between train and test
+            all_columns = sorted(list(set(train_df.columns) | set(test_df.columns)))
+            for column in all_columns:
+                if column not in train_df:
+                    train_df[column] = ''
+                if column not in test_df:
+                    test_df[column] = ''
             
             # Save splits
             train_path = os.path.join(self.output_directory, 'train_issues.csv')
