@@ -1,4 +1,4 @@
-# UniteUs Log Generator
+# AutoRCA Log Generator
 
 This Python script generates realistic dummy log data for the UniteUs app across different log sources: DataDog, Analytics, and Backend. The generated logs are saved in CSV format for later analysis.
 
