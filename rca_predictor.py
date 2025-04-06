@@ -424,7 +424,10 @@ class RCAPredictor:
         # Process predictions
         predicted_issues = []
         
-        for idx, issue in predict_issues.iterrows():
+        # Reset indices to avoid out-of-bounds issues with original DataFrame indices
+        predict_issues_reset = predict_issues.reset_index(drop=True)
+        
+        for enum_idx, (_, issue) in enumerate(predict_issues_reset.iterrows()):
             issue_dict = issue.to_dict()
             
             # Get probabilities for each class
@@ -435,13 +438,14 @@ class RCAPredictor:
             for i, estimator in enumerate(self.pipeline.named_steps['classifier'].estimators_):
                 label = self.label_mapping.get(i, f"Label_{i}")
                 
+                # Safe access using the enumerated index instead of the DataFrame index
                 # Handle the case where probability array might only have one element (binary classification)
-                if y_pred_prob[i][idx].size > 1:
+                if y_pred_prob[i][enum_idx].size > 1:
                     # Standard case - get probability of positive class
-                    prob = y_pred_prob[i][idx][1]
+                    prob = y_pred_prob[i][enum_idx][1]
                 else:
                     # Edge case - only one class, use the single probability
-                    prob = y_pred_prob[i][idx][0]
+                    prob = y_pred_prob[i][enum_idx][0]
                 
                 issue_probs.append((label, prob))
                 
