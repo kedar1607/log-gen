@@ -1,0 +1,172 @@
+{% extends "base.html" %}
+
+{% block title %}UniteUs AI-RCA Tools - Home{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12 text-center mb-4">
+        <h1>UniteUs AI-RCA Tools</h1>
+        <p class="lead">Generate realistic log data and Jira issues with Root Cause Analysis for machine learning</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <i class="bi bi-file-text"></i> Log Generator
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Generate Realistic Log Data</h5>
+                <p class="card-text">
+                    Create synthetic log data for DataDog, Analytics, and Backend services with configurable options:
+                </p>
+                <ul>
+                    <li>Control time period (days of data)</li>
+                    <li>Adjust error rate and volume</li>
+                    <li>Generate specific log sources</li>
+                </ul>
+                <a href="{{ url_for('generate_logs') }}" class="btn btn-primary">Generate Logs</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <i class="bi bi-kanban"></i> Jira Issue Generator
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Generate Jira Issues with RCA</h5>
+                <p class="card-text">
+                    Create Jira issues based on log data with Root Cause Analysis information:
+                </p>
+                <ul>
+                    <li>Control RCA ratio (% of issues with RCA)</li>
+                    <li>Generate training and testing datasets</li>
+                    <li>Create detailed, realistic issue descriptions</li>
+                </ul>
+                <a href="{{ url_for('generate_issues') }}" class="btn btn-success">Generate Issues</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header bg-info text-white">
+                <i class="bi bi-lightning-charge"></i> Quick Start
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Getting Started in 3 Steps</h5>
+                
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card mb-3">
+                            <div class="card-body text-center">
+                                <h1 class="display-4">1</h1>
+                                <p>Generate log data from different sources</p>
+                                <a href="{{ url_for('generate_logs') }}" class="btn btn-sm btn-outline-primary">Generate Logs</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <div class="card mb-3">
+                            <div class="card-body text-center">
+                                <h1 class="display-4">2</h1>
+                                <p>Create Jira issues with RCA from logs</p>
+                                <a href="{{ url_for('generate_issues') }}" class="btn btn-sm btn-outline-success">Generate Issues</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <div class="card mb-3">
+                            <div class="card-body text-center">
+                                <h1 class="display-4">3</h1>
+                                <p>Use data for training ML models</p>
+                                <a href="{{ url_for('view_issues') }}" class="btn btn-sm btn-outline-info">View & Download</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header bg-dark text-white">
+                <i class="bi bi-graph-up"></i> ML Applications
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Machine Learning Use Cases</h5>
+                <p>The generated data is suitable for various machine learning tasks:</p>
+                
+                <div class="row mt-3">
+                    <div class="col-md-6">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h5><i class="bi bi-check2-square"></i> Classification</h5>
+                                <p>Predict if an issue has a known root cause</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h5><i class="bi bi-grid-3x3"></i> Multi-class Classification</h5>
+                                <p>Predict the root cause category</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h5><i class="bi bi-tag"></i> Named Entity Recognition</h5>
+                                <p>Extract affected components from descriptions</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h5><i class="bi bi-diagram-3"></i> Clustering</h5>
+                                <p>Group similar issues by root cause patterns</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Make nav item active based on current page
+    document.addEventListener('DOMContentLoaded', function() {
+        const navLinks = document.querySelectorAll('.nav-link');
+        const currentPath = window.location.pathname;
+        
+        navLinks.forEach(link => {
+            if (link.getAttribute('href') === currentPath) {
+                link.classList.add('active');
+            }
+        });
+        
+        // Home page is active if we're at root
+        if (currentPath === '/') {
+            document.querySelector('a[href="/"]').classList.add('active');
+        }
+    });
+</script>
+{% endblock %}

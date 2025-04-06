@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+
+{% block title %}Generate Jira Issues - UniteUs AI-RCA Tools{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <h1><i class="bi bi-kanban"></i> Generate Jira Issues</h1>
+        <p class="lead">Create Jira issues with Root Cause Analysis based on log data</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                Jira Issue Generation Settings
+            </div>
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('generate_issues') }}">
+                    <div class="mb-3">
+                        <label for="count" class="form-label">Number of Issues</label>
+                        <input type="number" class="form-control" id="count" name="count" value="100" min="10" max="1000">
+                        <div class="form-text">Number of Jira issues to generate</div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="rca_ratio" class="form-label">RCA Ratio</label>
+                        <input type="range" class="form-range" id="rca_ratio" name="rca_ratio" min="0" max="1" step="0.1" value="0.8">
+                        <div class="d-flex justify-content-between">
+                            <span>0%</span>
+                            <span id="rca_ratio_value">80%</span>
+                            <span>100%</span>
+                        </div>
+                        <div class="form-text">Proportion of issues that will include Root Cause Analysis</div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="test_split" class="form-label">Test Set Size</label>
+                        <input type="range" class="form-range" id="test_split" name="test_split" min="0.1" max="0.5" step="0.05" value="0.2">
+                        <div class="d-flex justify-content-between">
+                            <span>10%</span>
+                            <span id="test_split_value">20%</span>
+                            <span>50%</span>
+                        </div>
+                        <div class="form-text">Proportion of data to use for testing (train/test split)</div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-success">Generate Jira Issues</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card mb-3">
+            <div class="card-header bg-info text-white">
+                Information
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">About Jira Issue Generation</h5>
+                <p>This tool creates realistic Jira issues based on the log data previously generated. These issues are suitable for training machine learning models for Root Cause Analysis.</p>
+                
+                <h6 class="mt-3">Generated Issue Features:</h6>
+                <ul>
+                    <li><strong>Issue Details:</strong> Key, summary, description, type, priority, status</li>
+                    <li><strong>People:</strong> Assignee, reporter</li>
+                    <li><strong>Metadata:</strong> Components, services, environment</li>
+                    <li><strong>Dates:</strong> Created and resolved timestamps</li>
+                    <li><strong>RCA Information:</strong> Root cause category, affected components, resolution steps, prevention steps</li>
+                </ul>
+                
+                <div class="alert alert-warning">
+                    <i class="bi bi-exclamation-triangle"></i> Make sure you've generated log data first!
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header bg-warning text-dark">
+                Next Steps
+            </div>
+            <div class="card-body">
+                <p>After generating issues, you can:</p>
+                <ol>
+                    <li>View the generated Jira issues</li>
+                    <li>Download the CSV files for machine learning</li>
+                    <li>Analyze the RCA distribution</li>
+                </ol>
+                <a href="{{ url_for('view_issues') }}" class="btn btn-outline-primary btn-sm">View Issues</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Update RCA ratio percentage display
+    document.getElementById('rca_ratio').addEventListener('input', function() {
+        const value = (parseFloat(this.value) * 100).toFixed(0);
+        document.getElementById('rca_ratio_value').textContent = value + '%';
+    });
+    
+    // Update test split percentage display
+    document.getElementById('test_split').addEventListener('input', function() {
+        const value = (parseFloat(this.value) * 100).toFixed(0);
+        document.getElementById('test_split_value').textContent = value + '%';
+    });
+    
+    // Initialize display values on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        // Update RCA ratio display
+        const rcaRatioValue = (parseFloat(document.getElementById('rca_ratio').value) * 100).toFixed(0);
+        document.getElementById('rca_ratio_value').textContent = rcaRatioValue + '%';
+        
+        // Update test split display
+        const testSplitValue = (parseFloat(document.getElementById('test_split').value) * 100).toFixed(0);
+        document.getElementById('test_split_value').textContent = testSplitValue + '%';
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,290 @@
+{% extends "base.html" %}
+
+{% block title %}View Logs - UniteUs AI-RCA Tools{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <h1><i class="bi bi-file-text"></i> View Generated Logs</h1>
+        <p class="lead">Explore and download the generated log data</p>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-12">
+        <ul class="nav nav-tabs" id="logTabs" role="tablist">
+            {% for source in ['datadog', 'backend', 'analytics'] %}
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link {% if loop.first %}active{% endif %}" 
+                            id="{{ source }}-tab" 
+                            data-bs-toggle="tab" 
+                            data-bs-target="#{{ source }}-content" 
+                            type="button" 
+                            role="tab">
+                        {{ source|capitalize }} Logs
+                        {% if source in log_files %}
+                            <span class="badge bg-primary">{{ log_files[source].count }}</span>
+                        {% endif %}
+                    </button>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+<div class="tab-content" id="logTabsContent">
+    {% for source in ['datadog', 'backend', 'analytics'] %}
+        <div class="tab-pane fade {% if loop.first %}show active{% endif %}" 
+             id="{{ source }}-content" 
+             role="tabpanel">
+            
+            {% if source in log_files %}
+                <div class="row mb-4">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header bg-primary text-white">
+                                {{ source|capitalize }} Log Summary
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="summary-widget">
+                                            <div class="summary-number">{{ log_files[source].count }}</div>
+                                            <div class="summary-label">Total Logs</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="summary-widget">
+                                            <div class="summary-number">{{ log_files[source].error_count }}</div>
+                                            <div class="summary-label">Error Logs</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="summary-widget">
+                                            <div class="summary-number">{{ log_files[source].services|length }}</div>
+                                            <div class="summary-label">Services</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="summary-widget">
+                                            <div class="summary-number">{{ log_files[source].columns|length }}</div>
+                                            <div class="summary-label">Fields</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="row mt-3">
+                                    <div class="col-md-12">
+                                        <a href="{{ url_for('download_file', filename='logs/' + source + '_logs.csv') }}" class="btn btn-primary">
+                                            <i class="bi bi-download"></i> Download {{ source|capitalize }} Logs
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header bg-info text-white">
+                                Sample {{ source|capitalize }} Logs
+                            </div>
+                            <div class="card-body pre-scrollable">
+                                {% if 'sample' in log_files[source] %}
+                                    {% for log in log_files[source].sample %}
+                                        <div class="log-item {% if log.level in ['error', 'critical', 'fatal'] %}log-error{% elif log.level in ['warn', 'warning'] %}log-warning{% endif %}">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <strong>Timestamp:</strong> {{ log.timestamp.split('T')[0] }} {{ log.timestamp.split('T')[1].split('.')[0] }}
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <strong>Service:</strong> {{ log.service }}
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <strong>Level:</strong> 
+                                                    <span class="badge {% if log.level in ['error', 'critical', 'fatal'] %}bg-danger{% elif log.level in ['warn', 'warning'] %}bg-warning text-dark{% elif log.level == 'info' %}bg-info{% else %}bg-secondary{% endif %}">
+                                                        {{ log.level }}
+                                                    </span>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    {% if 'latency_ms' in log %}
+                                                        <strong>Latency:</strong> {{ log.latency_ms }} ms
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                            <div class="mt-2">
+                                                <strong>Message:</strong> {{ log.message }}
+                                            </div>
+                                            {% if 'error' in log and log.error %}
+                                                <div class="mt-2 text-danger">
+                                                    <strong>Error:</strong> {{ log.error }}
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                    {% endfor %}
+                                {% else %}
+                                    <div class="alert alert-warning">
+                                        No sample logs available
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                {% if 'services' in log_files[source] and log_files[source].services %}
+                    <div class="row mt-4">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header bg-secondary text-white">
+                                    Services Distribution
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="{{ source }}-service-chart" width="400" height="300"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header bg-secondary text-white">
+                                    Log Levels Distribution
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="{{ source }}-level-chart" width="400" height="300"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+                
+            {% else %}
+                <div class="alert alert-warning">
+                    <i class="bi bi-exclamation-triangle"></i> No {{ source|capitalize }} logs have been generated yet.
+                </div>
+                <p>
+                    Go to <a href="{{ url_for('generate_logs') }}">Generate Logs</a> to create {{ source|capitalize }} logs.
+                </p>
+            {% endif %}
+        </div>
+    {% endfor %}
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header bg-dark text-white">
+                What's Next?
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title">Generate More Logs</h5>
+                                <p class="card-text">Create additional log data with different settings</p>
+                                <a href="{{ url_for('generate_logs') }}" class="btn btn-outline-primary">Generate Logs</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title">Generate Jira Issues</h5>
+                                <p class="card-text">Create Jira issues based on these logs</p>
+                                <a href="{{ url_for('generate_issues') }}" class="btn btn-outline-success">Generate Issues</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        {% for source in log_files %}
+            {% if 'services' in log_files[source] and log_files[source].services %}
+                // Service distribution chart
+                const serviceCtx = document.getElementById('{{ source }}-service-chart');
+                if (serviceCtx) {
+                    new Chart(serviceCtx, {
+                        type: 'pie',
+                        data: {
+                            labels: {{ log_files[source].services|tojson }},
+                            datasets: [{
+                                data: {{ [10, 15, 20, 25, 5, 15, 10]|tojson }}, // Placeholder data
+                                backgroundColor: [
+                                    'rgba(255, 99, 132, 0.7)',
+                                    'rgba(54, 162, 235, 0.7)',
+                                    'rgba(255, 206, 86, 0.7)',
+                                    'rgba(75, 192, 192, 0.7)',
+                                    'rgba(153, 102, 255, 0.7)',
+                                    'rgba(255, 159, 64, 0.7)',
+                                    'rgba(199, 199, 199, 0.7)',
+                                    'rgba(83, 102, 255, 0.7)',
+                                    'rgba(40, 159, 64, 0.7)',
+                                    'rgba(210, 199, 199, 0.7)',
+                                ]
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                legend: {
+                                    position: 'right',
+                                },
+                                title: {
+                                    display: true,
+                                    text: 'Services Distribution'
+                                }
+                            }
+                        }
+                    });
+                }
+                
+                // Log levels chart
+                const levelCtx = document.getElementById('{{ source }}-level-chart');
+                if (levelCtx) {
+                    new Chart(levelCtx, {
+                        type: 'bar',
+                        data: {
+                            labels: ['info', 'debug', 'warn', 'error', 'critical', 'fatal'],
+                            datasets: [{
+                                label: 'Log Count',
+                                data: [60, 20, 10, 5, 3, 2], // Placeholder data
+                                backgroundColor: [
+                                    'rgba(54, 162, 235, 0.7)',
+                                    'rgba(75, 192, 192, 0.7)',
+                                    'rgba(255, 206, 86, 0.7)',
+                                    'rgba(255, 99, 132, 0.7)',
+                                    'rgba(153, 102, 255, 0.7)',
+                                    'rgba(255, 159, 64, 0.7)',
+                                ]
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            },
+                            plugins: {
+                                title: {
+                                    display: true,
+                                    text: 'Log Levels Distribution'
+                                }
+                            }
+                        }
+                    });
+                }
+            {% endif %}
+        {% endfor %}
+    });
+</script>
+{% endblock %}

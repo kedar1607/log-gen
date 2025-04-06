@@ -1,0 +1,367 @@
+{% extends "base.html" %}
+
+{% block title %}View Jira Issues - UniteUs AI-RCA Tools{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <h1><i class="bi bi-kanban"></i> View Generated Jira Issues</h1>
+        <p class="lead">Explore and download the generated Jira issues with Root Cause Analysis</p>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-12">
+        <ul class="nav nav-tabs" id="issueTabs" role="tablist">
+            {% for file_type in ['jira_issues', 'train_issues', 'test_issues'] %}
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link {% if loop.first %}active{% endif %}" 
+                            id="{{ file_type }}-tab" 
+                            data-bs-toggle="tab" 
+                            data-bs-target="#{{ file_type }}-content" 
+                            type="button" 
+                            role="tab">
+                        {{ file_type.replace('_', ' ')|title }}
+                        {% if file_type in issue_files %}
+                            <span class="badge bg-primary">{{ issue_files[file_type].count }}</span>
+                        {% endif %}
+                    </button>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+<div class="tab-content" id="issueTabsContent">
+    {% for file_type in ['jira_issues', 'train_issues', 'test_issues'] %}
+        <div class="tab-pane fade {% if loop.first %}show active{% endif %}" 
+             id="{{ file_type }}-content" 
+             role="tabpanel">
+            
+            {% if file_type in issue_files %}
+                <div class="row mb-4">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header bg-success text-white">
+                                {{ file_type.replace('_', ' ')|title }} Summary
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="summary-widget">
+                                            <div class="summary-number">{{ issue_files[file_type].count }}</div>
+                                            <div class="summary-label">Total Issues</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="summary-widget">
+                                            <div class="summary-number">{{ issue_files[file_type].with_rca }}</div>
+                                            <div class="summary-label">With RCA ({{ "%.1f"|format(issue_files[file_type].with_rca / issue_files[file_type].count * 100) }}%)</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="summary-widget">
+                                            <div class="summary-number">{{ issue_files[file_type].without_rca }}</div>
+                                            <div class="summary-label">Without RCA ({{ "%.1f"|format(issue_files[file_type].without_rca / issue_files[file_type].count * 100) }}%)</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="summary-widget">
+                                            <div class="summary-number">{{ issue_files[file_type].issue_types|length }}</div>
+                                            <div class="summary-label">Issue Types</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="row mt-3">
+                                    <div class="col-md-12">
+                                        <a href="{{ url_for('download_file', filename='jira_issues/' + file_type + '.csv') }}" class="btn btn-success">
+                                            <i class="bi bi-download"></i> Download {{ file_type.replace('_', ' ')|title }}
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header bg-info text-white">
+                                Sample {{ file_type.replace('_', ' ')|title }}
+                            </div>
+                            <div class="card-body pre-scrollable">
+                                {% if 'sample' in issue_files[file_type] %}
+                                    {% for issue in issue_files[file_type].sample %}
+                                        <div class="jira-item {% if issue.has_rca %}jira-with-rca{% else %}jira-without-rca{% endif %}">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <h5>
+                                                        <span class="badge bg-secondary">{{ issue.key }}</span>
+                                                        {{ issue.summary }}
+                                                    </h5>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <span class="badge bg-primary">{{ issue.issue_type }}</span>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <span class="badge {% if issue.priority == 'Blocker' or issue.priority == 'Critical' %}bg-danger{% elif issue.priority == 'Major' %}bg-warning text-dark{% elif issue.priority == 'Minor' %}bg-info{% else %}bg-secondary{% endif %}">
+                                                        {{ issue.priority }}
+                                                    </span>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <span class="badge {% if issue.status == 'Open' %}bg-danger{% elif issue.status == 'In Progress' %}bg-warning text-dark{% elif issue.status == 'Code Review' or issue.status == 'Testing' %}bg-info{% else %}bg-success{% endif %}">
+                                                        {{ issue.status }}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="row mt-2">
+                                                <div class="col-md-3">
+                                                    <strong>Created:</strong> {{ issue.created_at }}
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <strong>Resolved:</strong> {{ issue.resolved_at if issue.resolved_at else "N/A" }}
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <strong>Assignee:</strong> {{ issue.assignee }}
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <strong>Reporter:</strong> {{ issue.reporter }}
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="row mt-2">
+                                                <div class="col-md-6">
+                                                    <strong>Affected Services:</strong> {{ issue.affected_services }}
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <strong>Environment:</strong> {{ issue.environment }}
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <strong>RCA Available:</strong> 
+                                                    <span class="badge {% if issue.has_rca %}bg-success{% else %}bg-danger{% endif %}">
+                                                        {{ "Yes" if issue.has_rca else "No" }}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            
+                                            {% if issue.has_rca %}
+                                                <div class="mt-3 p-3 bg-light">
+                                                    <h6 class="fw-bold">Root Cause Analysis</h6>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <strong>RCA Category:</strong> {{ issue.rca_root_cause_category }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mt-2">
+                                                        <div class="col-md-12">
+                                                            <strong>RCA Description:</strong> {{ issue.rca_description }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                    {% endfor %}
+                                {% else %}
+                                    <div class="alert alert-warning">
+                                        No sample issues available
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                {% if 'issue_types' in issue_files[file_type] and issue_files[file_type].issue_types %}
+                    <div class="row mt-4">
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-header bg-secondary text-white">
+                                    Issue Type Distribution
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="{{ file_type }}-type-chart" width="400" height="300"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-header bg-secondary text-white">
+                                    Priority Distribution
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="{{ file_type }}-priority-chart" width="400" height="300"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-header bg-secondary text-white">
+                                    RCA Distribution
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="{{ file_type }}-rca-chart" width="400" height="300"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+                
+            {% else %}
+                <div class="alert alert-warning">
+                    <i class="bi bi-exclamation-triangle"></i> No {{ file_type.replace('_', ' ')|title }} have been generated yet.
+                </div>
+                <p>
+                    Go to <a href="{{ url_for('generate_issues') }}">Generate Jira Issues</a> to create issues.
+                </p>
+            {% endif %}
+        </div>
+    {% endfor %}
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header bg-dark text-white">
+                What's Next?
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title">Generate More Issues</h5>
+                                <p class="card-text">Create additional Jira issues with different settings</p>
+                                <a href="{{ url_for('generate_issues') }}" class="btn btn-outline-success">Generate Issues</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title">Generate More Logs</h5>
+                                <p class="card-text">Create more varied log data for better Jira issues</p>
+                                <a href="{{ url_for('generate_logs') }}" class="btn btn-outline-primary">Generate Logs</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        {% for file_type in issue_files %}
+            {% if 'issue_types' in issue_files[file_type] and issue_files[file_type].issue_types %}
+                // Issue type distribution chart
+                const typeCtx = document.getElementById('{{ file_type }}-type-chart');
+                if (typeCtx) {
+                    new Chart(typeCtx, {
+                        type: 'pie',
+                        data: {
+                            labels: {{ issue_files[file_type].issue_types|tojson }},
+                            datasets: [{
+                                data: [40, 30, 15, 10, 5], // Placeholder data
+                                backgroundColor: [
+                                    'rgba(255, 99, 132, 0.7)',
+                                    'rgba(54, 162, 235, 0.7)',
+                                    'rgba(255, 206, 86, 0.7)',
+                                    'rgba(75, 192, 192, 0.7)',
+                                    'rgba(153, 102, 255, 0.7)',
+                                ]
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                legend: {
+                                    position: 'bottom',
+                                },
+                                title: {
+                                    display: true,
+                                    text: 'Issue Types'
+                                }
+                            }
+                        }
+                    });
+                }
+                
+                // Priority distribution chart
+                const priorityCtx = document.getElementById('{{ file_type }}-priority-chart');
+                if (priorityCtx) {
+                    new Chart(priorityCtx, {
+                        type: 'bar',
+                        data: {
+                            labels: {{ issue_files[file_type].priorities|tojson }},
+                            datasets: [{
+                                label: 'Issue Count',
+                                data: [5, 10, 20, 40, 25], // Placeholder data
+                                backgroundColor: [
+                                    'rgba(255, 99, 132, 0.7)',
+                                    'rgba(255, 159, 64, 0.7)',
+                                    'rgba(255, 206, 86, 0.7)',
+                                    'rgba(54, 162, 235, 0.7)',
+                                    'rgba(75, 192, 192, 0.7)',
+                                ]
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            },
+                            plugins: {
+                                title: {
+                                    display: true,
+                                    text: 'Priority Distribution'
+                                }
+                            }
+                        }
+                    });
+                }
+                
+                // RCA distribution chart
+                const rcaCtx = document.getElementById('{{ file_type }}-rca-chart');
+                if (rcaCtx) {
+                    new Chart(rcaCtx, {
+                        type: 'doughnut',
+                        data: {
+                            labels: ['With RCA', 'Without RCA'],
+                            datasets: [{
+                                data: [
+                                    {{ issue_files[file_type].with_rca }},
+                                    {{ issue_files[file_type].without_rca }}
+                                ],
+                                backgroundColor: [
+                                    'rgba(40, 167, 69, 0.7)',
+                                    'rgba(220, 53, 69, 0.7)'
+                                ]
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                legend: {
+                                    position: 'bottom',
+                                },
+                                title: {
+                                    display: true,
+                                    text: 'RCA Distribution'
+                                }
+                            }
+                        }
+                    });
+                }
+            {% endif %}
+        {% endfor %}
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,1664 @@
+key,summary,description,issue_type,priority,status,assignee,reporter,components,created_at,resolved_at,affected_services,environment,has_rca,rca_root_cause_category,rca_affected_components,rca_resolution_steps,rca_prevention_steps,rca_description
+DEVOPS-6153,ValidationError detected in user-service service,"## Issue Summary
+An ValidationError error was detected in the user-service service.
+
+**Impact**: This issue is affecting user experience.
+
+**Environment**: production
+
+## Related Logs
+```
+{
+  ""timestamp"": ""2025-04-05T16:29:32.972595"",
+  ""service"": ""user-service"",
+  ""component"": ""worker"",
+  ""level"": ""error"",
+  ""process_id"": 1487,
+  ""thread_id"": ""thread-10"",
+  ""request_id"": ""req-708f0a16"",
+  ""operation"": ""update_user"",
+  ""message"": ""Database error during update_user: ValidationError"",
+...
+```
+
+## Steps to Reproduce
+1. Trigger the specific operation in the user-service service
+2. Perform the update_user operation
+3. Observe the error or performance degradation
+
+",Bug,Critical,Done,Kelly Hernandez,Hayley Stephens,['user-service'],2025-04-05 18:13:32,2025-04-06 07:13:32,['user-service'],production,True,Code Bug,user-service,Fixed conditional logic in user-service handler; Added unit tests to cover edge case; Deployed hotfix to production,Improve code review process; Add more comprehensive unit tests; Consider static code analysis,Issue was identified as a code bug in the user-service service.
+UNITE-1633,DeliveryFailed detected in notification-service service,"## Issue Summary
+An DeliveryFailed error was detected in the notification-service service.
+
+**Impact**: This issue is causing service disruption.
+
+**Environment**: production
+
+## Related Logs
+```
+{
+  ""timestamp"": ""2025-04-05T08:03:39.114436"",
+  ""service"": ""notification-service"",
+  ""level"": ""fatal"",
+  ""env"": ""production"",
+  ""host"": ""notification-service-4.uniteusapp.io"",
+  ""trace_id"": ""trace-97...
+---
+{
+  ""timestamp"": ""2025-04-05T08:57:10.283057"",
+  ""service"": ""notification-service"",
+  ""level"": ""error"",
+  ""env"": ""development"",
+  ""host"": ""notification-service-4.uniteusapp.io"",
+  ""trace_id"": ""trace-b...
+```
+
+## Steps to Reproduce
+1. Trigger the specific operation in the notification-service service
+2. Access the endpoint nan
+3. Observe the error or performance degradation
+
+",Incident,Blocker,In Progress,Mary Mclaughlin,Jaclyn Donaldson,['notification-service'],2025-04-05 08:20:39,2025-04-06 10:20:39,['notification-service'],production,True,Network Issue,notification-service,Increased connection timeouts; Implemented retry mechanism; Added circuit breaker pattern,Improve network monitoring; Implement more robust error handling; Design for network failure resilience,Network connectivity issues impacting notification-service service.
+DEVOPS-9744,cache in admin-portal failing with PermissionDenied,"## Issue Summary
+An PermissionDenied error was detected in the admin-portal service.
+
+**Impact**: This issue is impacting system performance.
+
+**Environment**: production
+
+## Related Logs
+```
+{
+  ""timestamp"": ""2025-04-05T08:10:08.397303"",
+  ""service"": ""admin-portal"",
+  ""component"": ""worker"",
+  ""level"": ""fatal"",
+  ""process_id"": 8826,
+  ""thread_id"": ""thread-44"",
+  ""request_id"": ""req-2ecdb9c2...
+```
+
+",Bug,Blocker,In Progress,Brittany Young,David Munoz,['admin-portal'],2025-04-05 19:00:31,,['admin-portal'],production,False,,,,,
+PERF-9861,user-service experiencing UserNotFound,"## Issue Summary
+An UserNotFound error was detected in the user-service service.
+
+**Impact**: This issue is affecting user experience.
+
+**Environment**: staging
+
+## Related Logs
+```
+{
+  ""timestamp"": ""2025-04-05T21:40:05.806881"",
+  ""service"": ""user-service"",
+  ""level"": ""critical"",
+  ""env"": ""staging"",
+  ""host"": ""user-service-3.uniteusapp.io"",
+  ""trace_id"": ""trace-d3709dfe-60e0-4c4c-beb2-dbdbbea58a6b"",
+  ""span_id"": ""span-862d18dc"",
+  ""latency_ms"": 7137.98,
+  ""usr_id"": ""user_574417...
+```
+
+## Steps to Reproduce
+1. Trigger the specific operation in the user-service service
+2. Access the endpoint nan
+3. Observe the error or performance degradation
+
+",Incident,Blocker,Closed,Donna Wilkerson,Heidi Mcmahon,['user-service'],2025-04-05 22:02:05,2025-04-11 02:02:05,['user-service'],staging,True,Code Bug,user-service,Fixed conditional logic in user-service handler; Added unit tests to cover edge case; Deployed hotfix to production,Improve code review process; Add more comprehensive unit tests; Consider static code analysis,Issue was identified as a code bug in the user-service service.
+INFRA-2537,AuthenticationFailed in auth-service,"## Issue Summary
+An AuthenticationFailed error was detected in the auth-service service.
+
+**Impact**: This issue is causing data inconsistency.
+
+**Environment**: staging
+
+## Related Logs
+```
+{
+  ""timestamp"": ""2025-04-05T08:06:34.123070"",
+  ""service"": ""auth-service"",
+  ""component"": ""api"",
+  ""level"": ""critical"",
+  ""process_id"": 8947,
+  ""thread_id"": ""thread-18"",
+  ""request_id"": ""req-04e38b5b...
+```
+
+## Steps to Reproduce
+1. Trigger the specific operation in the auth-service service
+2. Access the endpoint nan
+3. Observe the error or performance degradation
+
+",Bug,Critical,Done,Cindy Gibson,Jessica Spencer,['auth-service'],2025-04-05 21:23:52,2025-04-12 14:23:52,['auth-service'],staging,True,Configuration Error,auth-service,Updated configuration parameters; Corrected environment variables; Redeployed service with proper settings,Implement configuration validation; Add configuration tests in deployment pipeline; Document configuration requirements,Misconfiguration in auth-service service settings.
+PERF-2233,frontend experiencing nan,"## Issue Summary
+An nan error was detected in the frontend service.
+
+**Impact**: This issue is causing data inconsistency.
+
+**Environment**: staging
+
+## Related Logs
+```
+{
+  ""timestamp"": ""2025-04-06T07:24:29.829828"",
+  ""service"": ""frontend"",
+  ""level"": ""warn"",
+  ""env"": ""staging"",
+  ""host"": ""frontend-5.uniteusapp.io"",
+  ""trace_id"": ""trace-36bbff33-3c5a-44d8-83fb-31c77d5d6c61"",
+  ""span_id"": ""span-4c24c9f4"",
+  ""latency_ms"": 289.87,
+  ""usr_id"": ""user_10f1b07d"",
+  ""usr_i...
+```
+
+",Bug,Major,Open,Teresa White,Meghan Snyder,['frontend'],2025-04-06 07:32:29,,['frontend'],staging,False,,,,,
+SVCOPS-6148,DatabaseConnectionFailed detected in user-service service,"## Issue Summary
+An DatabaseConnectionFailed error was detected in the user-service service.
+
+**Impact**: This issue is resulting in intermittent failures.
+
+**Environment**: production
+
+## Related Logs
+```
+{
+  ""timestamp"": ""2025-04-05T13:40:14.350866"",
+  ""service"": ""user-service"",
+  ""component"": ""api"",
+  ""level"": ""critical"",
+  ""process_id"": 2884,
+  ""thread_id"": ""thread-65"",
+  ""request_id"": ""req-4fc64952"",
+  ""operation"": ""update_user"",
+  ""message"": ""Database error during update_user: DatabaseConnection...
+```
+
+## Steps to Reproduce
+1. Trigger the specific operation in the user-service service
+2. Perform the update_user operation
+3. Observe the error or performance degradation
+
+",Incident,Blocker,Testing,Jamie Webb,Jamie Stafford,['user-service'],2025-04-05 15:30:14,2025-04-10 12:30:14,['user-service'],production,True,Database Issue,user-service,Fixed database connection pooling; Optimized query execution plan; Added index to improve query performance,Implement database monitoring; Regular database maintenance; Review query execution plans,Database issue affecting user-service service operations.
+UNITE-9808,IndexingError detected in search-service service,"## Issue Summary
+An IndexingError error was detected in the search-service service.
+
+**Impact**: This issue is causing service disruption.
+
+**Environment**: staging
+
+## Related Logs
+```
+{
+  ""timestamp"": ""2025-04-05T14:03:16.622600"",
+  ""service"": ""search-service"",
+  ""level"": ""fatal"",
+  ""env"": ""staging"",
+  ""host"": ""search-service-5.uniteusapp.io"",
+  ""trace_id"": ""trace-0e98da01-9125-4b61-a20b-872324b33eb8"",
+  ""span_id"": ""span-6fa7fad6"",
+  ""latency_ms"": 3313.58,
+  ""usr_id"": ""user_13069...
+```
+
+## Steps to Reproduce
+1. Trigger the specific operation in the search-service service
+2. Access the endpoint nan
+3. Observe the error or performance degradation
+
+",Incident,Blocker,Done,Sarah Campbell,Mark Miller,['search-service'],2025-04-05 14:31:16,2025-04-11 20:31:16,['search-service'],staging,True,Performance Bottleneck,search-service,Optimized API endpoint to reduce response time; Added caching layer to improve performance; Implemented query optimization,Implement performance testing in CI pipeline; Set up alerting on response time degradation; Regular performance reviews,Performance bottleneck identified in search-service service.
+SVCOPS-6059,mobile-app: AppCrashed causing service disruption,"## Issue Summary
+An AppCrashed error was detected in the mobile-app service.
+
+**Impact**: This issue is impacting system performance.
+
+**Environment**: production
+
+## Related Logs
+```
+{
+  ""timestamp"": ""2025-04-05T08:22:47.703559"",
+  ""service"": ""mobile-app"",
+  ""component"": ""scheduler"",
+  ""level"": ""critical"",
+  ""process_id"": 8161,
+  ""thread_id"": ""thread-93"",
+  ""request_id"": ""req-158a...
+```
+
+## Steps to Reproduce
+1. Trigger the specific operation in the mobile-app service
+2. Perform the push_registration operation
+3. Observe the error or performance degradation
+
+",Incident,Blocker,Done,Ryan Parks,Betty Green,['mobile-app'],2025-04-06 07:48:57,2025-04-09 22:48:57,['mobile-app'],production,True,Memory Leak,mobile-app,Fixed resource cleanup in service; Added proper object disposal; Optimized memory usage,Memory profiling in testing; Set up memory usage monitoring; Regular performance reviews,Memory leak detected in mobile-app service.
+PERF-9806,frontend: nan causing service disruption,"## Issue Summary
+An nan error was detected in the frontend service.
+
+**Impact**: This issue is causing service disruption.
+
+**Environment**: development
+
+## Related Logs
+```
+{
+  ""timestamp"": ""2025-04-05T09:57:59.615159"",
+  ""service"": ""frontend"",
+  ""level"": ""debug"",
+  ""env"": ""development"",
+  ""host"": ""frontend-3.uniteusapp.io"",
+  ""trace_id"": ""trace-97cced19-a506-4f9a-9da8-4...
+---
+{
+  ""timestamp"": ""2025-04-05T09:54:02.455502"",
+  ""service"": ""frontend"",
+  ""component"": ""api"",
+  ""level"": ""info"",
+  ""process_id"": 7009,
+  ""thread_id"": ""thread-46"",
+  ""request_id"": ""req-5e84a89d"",
+  ""op...
+```
+
+## Steps to Reproduce
+1. Trigger the specific operation in the frontend service
+2. Access the endpoint nan
+3. Observe the error or performance degradation
+
+",Incident,Trivial,Done,Mitchell Li,Brandon Alvarado,['frontend'],2025-04-05 11:51:59,2025-04-10 21:51:59,['frontend'],development,True,Memory Leak,frontend,Fixed resource cleanup in service; Added proper object disposal; Optimized memory usage,Memory profiling in testing; Set up memory usage monitoring; Regular performance reviews,Memory leak detected in frontend service.
+UUS-7554,reporting-service experiencing nan,"## Issue Summary
+An nan error was detected in the reporting-service service.
+
+**Impact**: This issue is resulting in intermittent failures.
+
+**Environment**: staging
+
+## Related Logs
+```
+{
+  ""timestamp"": ""2025-04-05T22:41:03.923207"",
+  ""service"": ""reporting-service"",
+  ""level"": ""info"",
+  ""env"": ""staging"",
+  ""host"": ""reporting-service-1.uniteusapp.io"",
+  ""trace_id"": ""trace-a47d53e6-f1c8-4878-8ab2-e38cd8b1f666"",
+  ""span_id"": ""span-005a1196"",
+  ""latency_ms"": 1846.58,
+  ""usr_id"": NaN,
+ ...
+```
+
+## Steps to Reproduce
+1. Trigger the specific operation in the reporting-service service
+2. Access the endpoint nan
+3. Observe the error or performance degradation
+
+",Incident,Minor,Done,Alison Mccoy,Kathleen Gibson,['reporting-service'],2025-04-05 23:41:03,2025-04-07 15:41:03,['reporting-service'],staging,True,Memory Leak,reporting-service,Fixed resource cleanup in service; Added proper object disposal; Optimized memory usage,Memory profiling in testing; Set up memory usage monitoring; Regular performance reviews,Memory leak detected in reporting-service service.
+UNITE-9377,AuthenticationFailed detected in auth-service service,"## Issue Summary
+An AuthenticationFailed error was detected in the auth-service service.
+
+**Impact**: This issue is affecting user experience.
+
+**Environment**: production
+
+## Related Logs
+```
+{
+  ""timestamp"": ""2025-04-05T08:06:34.123070"",
+  ""service"": ""auth-service"",
+  ""component"": ""api"",
+  ""level"": ""critical"",
+  ""process_id"": 8947,
+  ""thread_id"": ""thread-18"",
+  ""request_id"": ""req-04e38b5b...
+```
+
+## Steps to Reproduce
+1. Trigger the specific operation in the auth-service service
+2. Perform the generate_token operation
+3. Observe the error or performance degradation
+
+",Bug,Blocker,Done,Jenny Salazar,Bradley Harris,['auth-service'],2025-04-05 08:20:34,2025-04-06 18:20:34,['auth-service'],production,True,Security Issue,auth-service,Patched security vulnerability; Updated authentication mechanism; Implemented additional validation,Regular security audits; Implement security scanning in CI/CD; Developer security training,Security vulnerability in auth-service service.
+UUS-5108,nan in referral-service,"## Issue Summary
+An nan error was detected in the referral-service service.
+
+**Impact**: This issue is causing data inconsistency.
+
+**Environment**: staging
+
+## Related Logs
+```
+{
+  ""timestamp"": ""2025-04-06T01:42:57.456245"",
+  ""service"": ""referral-service"",
+  ""level"": ""debug"",
+  ""env"": ""staging"",
+  ""host"": ""referral-service-2.uniteusapp.io"",
+  ""trace_id"": ""trace-204f81db-8aa8-4f30-9558-3ad1021a0614"",
+  ""span_id"": ""span-a9a459fc"",
+  ""latency_ms"": 1418.91,
+  ""usr_id"": NaN,
+  ...
+```
+
+",Incident,Trivial,Open,Bruce Jackson,Christine Lewis,['referral-service'],2025-04-06 03:20:57,,['referral-service'],staging,True,Code Bug,referral-service,Fixed conditional logic in referral-service handler; Added unit tests to cover edge case; Deployed hotfix to production,Improve code review process; Add more comprehensive unit tests; Consider static code analysis,Issue was identified as a code bug in the referral-service service.
+UNITE-6401,ComponentCrashed in frontend/cache,"## Issue Summary
+An ComponentCrashed error was detected in the frontend service.
+
+**Impact**: This issue is resulting in intermittent failures.
+
+**Environment**: production
+
+## Related Logs
+```
+{
+  ""timestamp"": ""2025-04-06T07:33:38.964323"",
+  ""service"": ""frontend"",
+  ""component"": ""cache"",
+  ""level"": ""critical"",
+  ""process_id"": 2191,
+  ""thread_id"": ""thread-57"",
+  ""request_id"": ""req-9241b0a4"",
+  ""operation"": ""render_page"",
+  ""message"": ""Error in frontend.render_page: ComponentCrashed"",
+  ""us...
+```
+
+",Bug,Blocker,Open,Michelle Perez,William Kelly,['frontend'],2025-04-06 08:51:38,,['frontend'],production,False,,,,,
+PERF-3695,ReportGenerationFailed in reporting-service,"## Issue Summary
+An ReportGenerationFailed error was detected in the reporting-service service.
+
+**Impact**: This issue is causing data inconsistency.
+
+**Environment**: development
+
+## Related Logs
+```
+{
+  ""timestamp"": ""2025-04-06T03:29:09.115141"",
+  ""service"": ""reporting-service"",
+  ""level"": ""error"",
+  ""env"": ""development"",
+  ""host"": ""reporting-service-5.uniteusapp.io"",
+  ""trace_id"": ""trace-8def10e0-b6cf-47cc-833b-240d4d71feff"",
+  ""span_id"": ""span-1c068871"",
+  ""latency_ms"": 3315.48,
+  ""usr_id"": ""...
+```
+
+",Bug,Critical,Open,Kimberly Butler,Joann Warren,['reporting-service'],2025-04-06 04:35:09,,['reporting-service'],development,False,,,,,
+UNITE-5556,api-gateway experiencing RateLimitExceeded,"## Issue Summary
+An RateLimitExceeded error was detected in the api-gateway service.
+
+**Impact**: This issue is resulting in intermittent failures.
+
+**Environment**: production
+
+## Related Logs
+```
+{
+  ""timestamp"": ""2025-04-06T03:00:12.923538"",
+  ""service"": ""api-gateway"",
+  ""component"": ""db"",
+  ""level"": ""fatal"",
+  ""process_id"": 4441,
+  ""thread_id"": ""thread-14"",
+  ""request_id"": ""req-57af9f27"",
+  ""operation"": ""route_request"",
+  ""message"": ""Error in api-gateway.route_request: RateLimitExceeded"",
+...
+```
+
+## Steps to Reproduce
+1. Trigger the specific operation in the api-gateway service
+2. Perform the route_request operation
+3. Observe the error or performance degradation
+
+",Bug,Blocker,Done,Thomas Lewis,Stephanie Ryan,['api-gateway'],2025-04-06 04:07:12,2025-04-08 04:07:12,['api-gateway'],production,True,Resource Limitation,api-gateway,Increased memory allocation; Optimized resource usage; Implemented backpressure mechanism,Set up resource monitoring; Implement autoscaling; Load testing to determine limits,Resource limitations in api-gateway service.
+SVCOPS-5377,auth-service experiencing AuthenticationFailed,"## Issue Summary
+An AuthenticationFailed error was detected in the auth-service service.
+
+**Impact**: This issue is impacting system performance.
+
+**Environment**: production
+
+## Related Logs
+```
+{
+  ""timestamp"": ""2025-04-05T08:06:34.123070"",
+  ""service"": ""auth-service"",
+  ""component"": ""api"",
+  ""level"": ""critical"",
+  ""process_id"": 8947,
+  ""thread_id"": ""thread-18"",
+  ""request_id"": ""req-04e38b5b...
+```
+
+## Steps to Reproduce
+1. Trigger the specific operation in the auth-service service
+2. Perform the update_session operation
+3. Observe the error or performance degradation
+
+",Bug,Blocker,Done,Richard Wade,Katrina Quinn,['auth-service'],2025-04-05 15:21:43,2025-04-10 17:21:43,['auth-service'],production,True,Security Issue,auth-service,Patched security vulnerability; Updated authentication mechanism; Implemented additional validation,Regular security audits; Implement security scanning in CI/CD; Developer security training,Security vulnerability in auth-service service.
+SVCOPS-6353,nan in search-service,"## Issue Summary
+An nan error was detected in the search-service service.
+
+**Impact**: This issue is causing data inconsistency.
+
+**Environment**: staging
+
+## Related Logs
+```
+{
+  ""timestamp"": ""2025-04-05T09:34:47.820033"",
+  ""service"": ""search-service"",
+  ""level"": ""info"",
+  ""env"": ""staging"",
+  ""host"": ""search-service-4.uniteusapp.io"",
+  ""trace_id"": ""trace-c89aa178-f31f-47a6...
+---
+{
+  ""timestamp"": ""2025-04-05T09:25:51.067007"",
+  ""service"": ""search-service"",
+  ""component"": ""cache"",
+  ""level"": ""info"",
+  ""process_id"": 9491,
+  ""thread_id"": ""thread-48"",
+  ""request_id"": ""req-037d7686...
+---
+{
+  ""timestamp"": ""2025-04-05T09:35:59.262444"",
+  ""service"": ""search-service"",
+  ""component"": ""worker"",
+  ""level"": ""info"",
+  ""process_id"": 7225,
+  ""thread_id"": ""thread-2"",
+  ""request_id"": ""req-816da120...
+```
+
+## Steps to Reproduce
+1. Trigger the specific operation in the search-service service
+2. Access the endpoint nan
+3. Observe the error or performance degradation
+
+",Incident,Minor,Closed,Michelle Browning,Brian Edwards,['search-service'],2025-04-05 11:00:47,2025-04-11 04:00:47,['search-service'],staging,True,Resource Limitation,search-service,Increased connection pool allocation; Optimized resource usage; Implemented backpressure mechanism,Set up resource monitoring; Implement autoscaling; Load testing to determine limits,Resource limitations in search-service service.
+DEVOPS-7731,admin-portal experiencing PermissionDenied,"## Issue Summary
+An PermissionDenied error was detected in the admin-portal service.
+
+**Impact**: This issue is causing service disruption.
+
+**Environment**: development
+
+## Related Logs
+```
+{
+  ""timestamp"": ""2025-04-05T08:10:08.397303"",
+  ""service"": ""admin-portal"",
+  ""component"": ""worker"",
+  ""level"": ""fatal"",
+  ""process_id"": 8826,
+  ""thread_id"": ""thread-44"",
+  ""request_id"": ""req-2ecdb9c2...
+```
+
+",Bug,Critical,Open,Alexandria Moran,Krystal Little,['admin-portal'],2025-04-05 20:01:07,,['admin-portal'],development,False,,,,,
+UUS-7138,NetworkError detected in mobile-app service,"## Issue Summary
+An NetworkError error was detected in the mobile-app service.
+
+**Impact**: This issue is affecting user experience.
+
+**Environment**: development
+
+## Related Logs
+```
+{
+  ""timestamp"": ""2025-04-05T14:53:39.718474"",
+  ""service"": ""mobile-app"",
+  ""level"": ""fatal"",
+  ""env"": ""development"",
+  ""host"": ""mobile-app-4.uniteusapp.io"",
+  ""trace_id"": ""trace-7af28be6-b570-4907-8297-8ce19b46da60"",
+  ""span_id"": ""span-e8e34e34"",
+  ""latency_ms"": 1163.42,
+  ""usr_id"": ""user_c1db46b6""...
+```
+
+## Steps to Reproduce
+1. Trigger the specific operation in the mobile-app service
+2. Access the endpoint nan
+3. Observe the error or performance degradation
+
+",Bug,Blocker,In Progress,Lonnie Little,Steven Bowers,['mobile-app'],2025-04-05 15:29:39,2025-04-05 23:29:39,['mobile-app'],development,True,Memory Leak,mobile-app,Fixed resource cleanup in service; Added proper object disposal; Optimized memory usage,Memory profiling in testing; Set up memory usage monitoring; Regular performance reviews,Memory leak detected in mobile-app service.
+UUS-9237,RateLimitExceeded detected in api-gateway service,"## Issue Summary
+An RateLimitExceeded error was detected in the api-gateway service.
+
+**Impact**: This issue is causing data inconsistency.
+
+**Environment**: production
+
+## Related Logs
+```
+{
+  ""timestamp"": ""2025-04-05T17:54:29.478706"",
+  ""service"": ""api-gateway"",
+  ""component"": ""scheduler"",
+  ""level"": ""critical"",
+  ""process_id"": 7448,
+  ""thread_id"": ""thread-6"",
+  ""request_id"": ""req-fb9f3a25"",
+  ""operation"": ""transform_response"",
+  ""message"": ""Database error during transform_response: ...
+```
+
+## Steps to Reproduce
+1. Trigger the specific operation in the api-gateway service
+2. Perform the transform_response operation
+3. Observe the error or performance degradation
+
+",Bug,Blocker,Done,Gregory Hendricks,Cody Downs,['api-gateway'],2025-04-05 18:02:29,2025-04-09 21:02:29,['api-gateway'],production,True,Configuration Error,api-gateway,Updated configuration parameters; Corrected environment variables; Redeployed service with proper settings,Implement configuration validation; Add configuration tests in deployment pipeline; Document configuration requirements,Misconfiguration in api-gateway service settings.
+UUS-2774,StateManagementFailure in frontend/cache,"## Issue Summary
+An StateManagementFailure error was detected in the frontend service.
+
+**Impact**: This issue is causing service disruption.
+
+**Environment**: production
+
+## Related Logs
+```
+{
+  ""timestamp"": ""2025-04-05T20:31:38.313042"",
+  ""service"": ""frontend"",
+  ""component"": ""cache"",
+  ""level"": ""fatal"",
+  ""process_id"": 8098,
+  ""thread_id"": ""thread-47"",
+  ""request_id"": ""req-0c2361c1"",
+  ""operation"": ""load_data"",
+  ""message"": ""External API error: StateManagementFailure - email_service"",...
+```
+
+## Steps to Reproduce
+1. Trigger the specific operation in the frontend service
+2. Perform the load_data operation
+3. Observe the error or performance degradation
+
+",Incident,Blocker,Done,Ashley Lynn,Catherine Wilson,['frontend'],2025-04-05 21:37:38,2025-04-06 21:37:38,['frontend'],production,True,Code Bug,frontend,Fixed conditional logic in frontend handler; Added unit tests to cover edge case; Deployed hotfix to production,Improve code review process; Add more comprehensive unit tests; Consider static code analysis,Issue was identified as a code bug in the frontend service.
+INFRA-6005,nan in notification-service,"## Issue Summary
+An nan error was detected in the notification-service service.
+
+**Impact**: This issue is causing service disruption.
+
+**Environment**: development
+
+## Related Logs
+```
+{
+  ""timestamp"": ""2025-04-06T03:42:04.704072"",
+  ""service"": ""notification-service"",
+  ""level"": ""debug"",
+  ""env"": ""development"",
+  ""host"": ""notification-service-1.uniteusapp.io"",
+  ""trace_id"": ""trace-69359ab5-6356-4113-b3e8-5e63bafd5070"",
+  ""span_id"": ""span-ce8f8c2c"",
+  ""latency_ms"": 1745.68,
+  ""usr_...
+```
+
+",Incident,Trivial,Open,Tracy Pearson,Caroline Price,['notification-service'],2025-04-06 05:34:04,,['notification-service'],development,True,Resource Limitation,notification-service,Increased memory allocation; Optimized resource usage; Implemented backpressure mechanism,Set up resource monitoring; Implement autoscaling; Load testing to determine limits,Resource limitations in notification-service service.
+DEVOPS-7636,scheduler in mobile-app failing with AppCrashed,"## Issue Summary
+An AppCrashed error was detected in the mobile-app service.
+
+**Impact**: This issue is impacting system performance.
+
+**Environment**: production
+
+## Related Logs
+```
+{
+  ""timestamp"": ""2025-04-05T08:22:47.703559"",
+  ""service"": ""mobile-app"",
+  ""component"": ""scheduler"",
+  ""level"": ""critical"",
+  ""process_id"": 8161,
+  ""thread_id"": ""thread-93"",
+  ""request_id"": ""req-158a...
+```
+
+## Steps to Reproduce
+1. Trigger the specific operation in the mobile-app service
+2. Perform the background_refresh operation
+3. Observe the error or performance degradation
+
+",Incident,Blocker,Closed,Katie Brown,Jennifer Romero,['mobile-app'],2025-04-06 07:31:17,2025-04-07 19:31:17,['mobile-app'],production,True,Memory Leak,mobile-app,Fixed resource cleanup in service; Added proper object disposal; Optimized memory usage,Memory profiling in testing; Set up memory usage monitoring; Regular performance reviews,Memory leak detected in mobile-app service.
+UUS-9628,ServiceUnavailable detected in api-gateway service,"## Issue Summary
+An ServiceUnavailable error was detected in the api-gateway service.
+
+**Impact**: This issue is impacting system performance.
+
+**Environment**: production
+
+## Related Logs
+```
+{
+  ""timestamp"": ""2025-04-05T22:37:15.618091"",
+  ""service"": ""api-gateway"",
+  ""component"": ""db"",
+  ""level"": ""critical"",
+  ""process_id"": 3284,
+  ""thread_id"": ""thread-18"",
+  ""request_id"": ""req-ba20c39e"",
+  ""operation"": ""validate_auth"",
+  ""message"": ""Error in api-gateway.validate_auth: ServiceUnavailabl...
+```
+
+## Steps to Reproduce
+1. Trigger the specific operation in the api-gateway service
+2. Perform the validate_auth operation
+3. Observe the error or performance degradation
+
+",Bug,Blocker,In Progress,Susan Ponce,Devin Jackson,['api-gateway'],2025-04-06 00:14:15,2025-04-08 03:14:15,['api-gateway'],production,True,Resource Limitation,api-gateway,Increased memory allocation; Optimized resource usage; Implemented backpressure mechanism,Set up resource monitoring; Implement autoscaling; Load testing to determine limits,Resource limitations in api-gateway service.
+DEVOPS-2653,PermissionDenied in admin-portal,"## Issue Summary
+An PermissionDenied error was detected in the admin-portal service.
+
+**Impact**: This issue is affecting user experience.
+
+**Environment**: staging
+
+## Related Logs
+```
+{
+  ""timestamp"": ""2025-04-05T08:10:08.397303"",
+  ""service"": ""admin-portal"",
+  ""component"": ""worker"",
+  ""level"": ""fatal"",
+  ""process_id"": 8826,
+  ""thread_id"": ""thread-44"",
+  ""request_id"": ""req-2ecdb9c2...
+```
+
+## Steps to Reproduce
+1. Trigger the specific operation in the admin-portal service
+2. Access the endpoint nan
+3. Observe the error or performance degradation
+
+",Bug,Critical,Done,Dr. Dana Hull,Brent Thomas,['admin-portal'],2025-04-06 02:58:31,2025-04-12 14:58:31,['admin-portal'],staging,True,Code Bug,admin-portal,Fixed conditional logic in admin-portal handler; Added unit tests to cover edge case; Deployed hotfix to production,Improve code review process; Add more comprehensive unit tests; Consider static code analysis,Issue was identified as a code bug in the admin-portal service.
+PERF-9178,TemplateNotFound detected in notification-service service,"## Issue Summary
+An TemplateNotFound error was detected in the notification-service service.
+
+**Impact**: This issue is causing service disruption.
+
+**Environment**: production
+
+## Related Logs
+```
+{
+  ""timestamp"": ""2025-04-05T13:10:42.665101"",
+  ""service"": ""notification-service"",
+  ""level"": ""critical"",
+  ""env"": ""staging"",
+  ""host"": ""notification-service-2.uniteusapp.io"",
+  ""trace_id"": ""trace-89...
+```
+
+## Steps to Reproduce
+1. Trigger the specific operation in the notification-service service
+2. Perform the check_delivery_status operation
+3. Observe the error or performance degradation
+
+",Incident,Blocker,Done,Audrey Weber,James Guerrero,['notification-service'],2025-04-06 01:32:03,2025-04-10 14:32:03,['notification-service'],production,True,Resource Limitation,notification-service,Increased memory allocation; Optimized resource usage; Implemented backpressure mechanism,Set up resource monitoring; Implement autoscaling; Load testing to determine limits,Resource limitations in notification-service service.
+UUS-2345,user-service: DatabaseConnectionFailed causing service disruption,"## Issue Summary
+An DatabaseConnectionFailed error was detected in the user-service service.
+
+**Impact**: This issue is affecting user experience.
+
+**Environment**: production
+
+## Related Logs
+```
+{
+  ""timestamp"": ""2025-04-06T05:36:18.667970"",
+  ""service"": ""user-service"",
+  ""component"": ""cache"",
+  ""level"": ""error"",
+  ""process_id"": 9244,
+  ""thread_id"": ""thread-46"",
+  ""request_id"": ""req-ff08c8c2"",
+  ""operation"": ""search_users"",
+  ""message"": ""Database error during search_users: DatabaseConnectio...
+```
+
+## Steps to Reproduce
+1. Trigger the specific operation in the user-service service
+2. Perform the search_users operation
+3. Observe the error or performance degradation
+
+",Incident,Critical,Done,Matthew Smith,Mitchell Douglas,['user-service'],2025-04-06 05:45:18,2025-04-06 15:45:18,['user-service'],production,True,Network Issue,user-service,Increased connection timeouts; Implemented retry mechanism; Added circuit breaker pattern,Improve network monitoring; Implement more robust error handling; Design for network failure resilience,Network connectivity issues impacting user-service service.
+DEVOPS-8338,db in user-service failing with UserNotFound,"## Issue Summary
+An UserNotFound error was detected in the user-service service.
+
+**Impact**: This issue is resulting in intermittent failures.
+
+**Environment**: production
+
+## Related Logs
+```
+{
+  ""timestamp"": ""2025-04-06T06:09:11.929823"",
+  ""service"": ""user-service"",
+  ""component"": ""db"",
+  ""level"": ""critical"",
+  ""process_id"": 4411,
+  ""thread_id"": ""thread-87"",
+  ""request_id"": ""req-8114e7c0"",
+  ""operation"": ""search_users"",
+  ""message"": ""Database error during search_users: UserNotFound"",
+  ...
+```
+
+## Steps to Reproduce
+1. Trigger the specific operation in the user-service service
+2. Perform the search_users operation
+3. Observe the error or performance degradation
+
+",Bug,Blocker,Done,Christie Bowers,Alicia Mcgee,['user-service'],2025-04-06 06:30:11,2025-04-07 01:30:11,['user-service'],production,True,Code Bug,user-service,Fixed conditional logic in user-service handler; Added unit tests to cover edge case; Deployed hotfix to production,Improve code review process; Add more comprehensive unit tests; Consider static code analysis,Issue was identified as a code bug in the user-service service.
+UNITE-6903,UserNotFound in user-service,"## Issue Summary
+An UserNotFound error was detected in the user-service service.
+
+**Impact**: This issue is causing data inconsistency.
+
+**Environment**: production
+
+## Related Logs
+```
+{
+  ""timestamp"": ""2025-04-05T15:26:03.824700"",
+  ""service"": ""user-service"",
+  ""level"": ""critical"",
+  ""env"": ""production"",
+  ""host"": ""user-service-3.uniteusapp.io"",
+  ""trace_id"": ""trace-3891d336-edb7-4ecf-bd09-9be7b4c9f919"",
+  ""span_id"": ""span-ba07ecaf"",
+  ""latency_ms"": 1969.95,
+  ""usr_id"": NaN,
+  ""u...
+```
+
+## Steps to Reproduce
+1. Trigger the specific operation in the user-service service
+2. Access the endpoint nan
+3. Observe the error or performance degradation
+
+",Bug,Blocker,Done,Daniel Bennett,Tara Oconnell,['user-service'],2025-04-05 15:53:03,2025-04-10 15:53:03,['user-service'],production,True,Data Corruption,user-service,Restored data from backup; Fixed data validation logic; Added data integrity checks,Implement data validation; Regular data integrity checks; Improve backup strategy,Data corruption detected in user-service service.
+SVCOPS-8445,QueryTimeout detected in search-service service,"## Issue Summary
+An QueryTimeout error was detected in the search-service service.
+
+**Impact**: This issue is affecting user experience.
+
+**Environment**: production
+
+## Related Logs
+```
+{
+  ""timestamp"": ""2025-04-05T12:06:54.624960"",
+  ""service"": ""search-service"",
+  ""component"": ""api"",
+  ""level"": ""critical"",
+  ""process_id"": 9427,
+  ""thread_id"": ""thread-57"",
+  ""request_id"": ""req-ffcac184"",
+  ""operation"": ""optimize_index"",
+  ""message"": ""Error in search-service.optimize_index: QueryTim...
+```
+
+",Incident,Blocker,Open,Tonya Taylor,Samuel Brown,['search-service'],2025-04-05 12:45:54,,['search-service'],production,False,,,,,
+UNITE-2740,frontend: nan causing service disruption,"## Issue Summary
+An nan error was detected in the frontend service.
+
+**Impact**: This issue is affecting user experience.
+
+**Environment**: staging
+
+## Related Logs
+```
+{
+  ""timestamp"": ""2025-04-05T12:26:29.406551"",
+  ""service"": ""frontend"",
+  ""level"": ""info"",
+  ""env"": ""staging"",
+  ""host"": ""frontend-5.uniteusapp.io"",
+  ""trace_id"": ""trace-c3410762-a0f9-482d-a6a1-c7b6ca...
+---
+{
+  ""timestamp"": ""2025-04-05T12:35:10.123733"",
+  ""service"": ""frontend"",
+  ""level"": ""info"",
+  ""env"": ""development"",
+  ""host"": ""frontend-5.uniteusapp.io"",
+  ""trace_id"": ""trace-efcfb3d5-7f3f-4a3b-a43a-9b...
+```
+
+",Bug,Minor,Open,Matthew Richardson,Belinda Ochoa,['frontend'],2025-04-05 13:28:29,,['frontend'],staging,True,Performance Bottleneck,frontend,Optimized database query to reduce response time; Added caching layer to improve performance; Implemented query optimization,Implement performance testing in CI pipeline; Set up alerting on response time degradation; Regular performance reviews,Performance bottleneck identified in frontend service.
+INFRA-7815,api in admin-portal failing with PermissionDenied,"## Issue Summary
+An PermissionDenied error was detected in the admin-portal service.
+
+**Impact**: This issue is affecting user experience.
+
+**Environment**: production
+
+## Related Logs
+```
+{
+  ""timestamp"": ""2025-04-05T08:10:08.397303"",
+  ""service"": ""admin-portal"",
+  ""component"": ""worker"",
+  ""level"": ""fatal"",
+  ""process_id"": 8826,
+  ""thread_id"": ""thread-44"",
+  ""request_id"": ""req-2ecdb9c2...
+```
+
+## Steps to Reproduce
+1. Trigger the specific operation in the admin-portal service
+2. Perform the bulk_update operation
+3. Observe the error or performance degradation
+
+",Incident,Critical,Done,John Martinez,Angela Schmidt,['admin-portal'],2025-04-06 04:20:55,2025-04-06 23:20:55,['admin-portal'],production,True,Code Bug,admin-portal,Fixed conditional logic in admin-portal handler; Added unit tests to cover edge case; Deployed hotfix to production,Improve code review process; Add more comprehensive unit tests; Consider static code analysis,Issue was identified as a code bug in the admin-portal service.
+UNITE-3535,admin-portal experiencing nan,"## Issue Summary
+An nan error was detected in the admin-portal service.
+
+**Impact**: This issue is causing data inconsistency.
+
+**Environment**: development
+
+## Related Logs
+```
+{
+  ""timestamp"": ""2025-04-06T06:25:58.515352"",
+  ""service"": ""admin-portal"",
+  ""level"": ""info"",
+  ""env"": ""development"",
+  ""host"": ""admin-portal-3.uniteusapp.io"",
+  ""trace_id"": ""trace-0ebef4e6-2a1a-414b-a740-0d9b98c6245b"",
+  ""span_id"": ""span-abfdc5b4"",
+  ""latency_ms"": 1963.51,
+  ""usr_id"": ""user_491fe8...
+```
+
+## Steps to Reproduce
+1. Trigger the specific operation in the admin-portal service
+2. Access the endpoint nan
+3. Observe the error or performance degradation
+
+",Incident,Minor,Done,Justin Mcmahon,Jeremy Oneill,['admin-portal'],2025-04-06 07:08:58,2025-04-06 20:08:58,['admin-portal'],development,True,Code Bug,admin-portal,Fixed conditional logic in admin-portal handler; Added unit tests to cover edge case; Deployed hotfix to production,Improve code review process; Add more comprehensive unit tests; Consider static code analysis,Issue was identified as a code bug in the admin-portal service.
+INFRA-9606,search-service: QueryTimeout causing service disruption,"## Issue Summary
+An QueryTimeout error was detected in the search-service service.
+
+**Impact**: This issue is resulting in intermittent failures.
+
+**Environment**: production
+
+## Related Logs
+```
+{
+  ""timestamp"": ""2025-04-06T06:07:50.097490"",
+  ""service"": ""search-service"",
+  ""level"": ""fatal"",
+  ""env"": ""production"",
+  ""host"": ""search-service-5.uniteusapp.io"",
+  ""trace_id"": ""trace-9e4c7dc3-71da-4d1e-822c-e1481069de20"",
+  ""span_id"": ""span-4c406332"",
+  ""latency_ms"": 5934.8,
+  ""usr_id"": ""user_ab9...
+```
+
+## Steps to Reproduce
+1. Trigger the specific operation in the search-service service
+2. Access the endpoint nan
+3. Observe the error or performance degradation
+
+",Incident,Blocker,Done,Alexandra Allen,Alyssa Owens,['search-service'],2025-04-06 07:51:50,2025-04-12 21:51:50,['search-service'],production,True,Database Issue,search-service,Fixed database connection pooling; Optimized query execution plan; Added index to improve query performance,Implement database monitoring; Regular database maintenance; Review query execution plans,Database issue affecting search-service service operations.
+UUS-4702,nan in referral-service,"## Issue Summary
+An nan error was detected in the referral-service service.
+
+**Impact**: This issue is resulting in intermittent failures.
+
+**Environment**: staging
+
+## Related Logs
+```
+{
+  ""timestamp"": ""2025-04-06T01:42:57.456245"",
+  ""service"": ""referral-service"",
+  ""level"": ""debug"",
+  ""env"": ""staging"",
+  ""host"": ""referral-service-2.uniteusapp.io"",
+  ""trace_id"": ""trace-204f81db-8aa8-4f30-9558-3ad1021a0614"",
+  ""span_id"": ""span-a9a459fc"",
+  ""latency_ms"": 1418.91,
+  ""usr_id"": NaN,
+  ...
+```
+
+## Steps to Reproduce
+1. Trigger the specific operation in the referral-service service
+2. Access the endpoint nan
+3. Observe the error or performance degradation
+
+",Bug,Trivial,Closed,Dennis Jones,David Ramos,['referral-service'],2025-04-06 03:10:57,2025-04-13 03:10:57,['referral-service'],staging,True,Database Issue,referral-service,Fixed database connection pooling; Optimized query execution plan; Added index to improve query performance,Implement database monitoring; Regular database maintenance; Review query execution plans,Database issue affecting referral-service service operations.
+UUS-8827,QueryTimeout in search-service/scheduler,"## Issue Summary
+An QueryTimeout error was detected in the search-service service.
+
+**Impact**: This issue is affecting user experience.
+
+**Environment**: production
+
+## Related Logs
+```
+{
+  ""timestamp"": ""2025-04-05T11:19:31.459366"",
+  ""service"": ""search-service"",
+  ""level"": ""debug"",
+  ""env"": ""production"",
+  ""host"": ""search-service-2.uniteusapp.io"",
+  ""trace_id"": ""trace-a71431d5-689f-...
+---
+{
+  ""timestamp"": ""2025-04-05T11:02:54.760166"",
+  ""service"": ""search-service"",
+  ""component"": ""worker"",
+  ""level"": ""debug"",
+  ""process_id"": 5726,
+  ""thread_id"": ""thread-26"",
+  ""request_id"": ""req-d0f88e...
+```
+
+## Steps to Reproduce
+1. Trigger the specific operation in the search-service service
+2. Perform the index_document operation
+3. Observe the error or performance degradation
+
+",Bug,Critical,Code Review,Christina Hall,Mr. Todd Moore,['search-service'],2025-04-05 11:31:31,2025-04-09 15:31:31,['search-service'],production,True,Database Issue,search-service,Fixed database connection pooling; Optimized query execution plan; Added index to improve query performance,Implement database monitoring; Regular database maintenance; Review query execution plans,Database issue affecting search-service service operations.
+UUS-4099,nan in admin-portal,"## Issue Summary
+An nan error was detected in the admin-portal service.
+
+**Impact**: This issue is causing service disruption.
+
+**Environment**: production
+
+## Related Logs
+```
+{
+  ""timestamp"": ""2025-04-06T03:33:07.060265"",
+  ""service"": ""admin-portal"",
+  ""level"": ""info"",
+  ""env"": ""production"",
+  ""host"": ""admin-portal-4.uniteusapp.io"",
+  ""trace_id"": ""trace-c3e78fe4-0938-4cb6-9f35-7067a3393b6e"",
+  ""span_id"": ""span-c22c444e"",
+  ""latency_ms"": 1535.48,
+  ""usr_id"": ""user_e053183...
+```
+
+## Steps to Reproduce
+1. Trigger the specific operation in the admin-portal service
+2. Access the endpoint nan
+3. Observe the error or performance degradation
+
+",Incident,Minor,Closed,Michelle Jones,Joan Sexton,['admin-portal'],2025-04-06 04:16:07,2025-04-06 06:16:07,['admin-portal'],production,True,Configuration Error,admin-portal,Updated configuration parameters; Corrected environment variables; Redeployed service with proper settings,Implement configuration validation; Add configuration tests in deployment pipeline; Document configuration requirements,Misconfiguration in admin-portal service settings.
+SVCOPS-7418,frontend: ComponentCrashed causing service disruption,"## Issue Summary
+An ComponentCrashed error was detected in the frontend service.
+
+**Impact**: This issue is affecting user experience.
+
+**Environment**: staging
+
+## Related Logs
+```
+{
+  ""timestamp"": ""2025-04-05T21:56:06.060473"",
+  ""service"": ""frontend"",
+  ""level"": ""critical"",
+  ""env"": ""staging"",
+  ""host"": ""frontend-5.uniteusapp.io"",
+  ""trace_id"": ""trace-f9697483-1560-4822-b624-2b8d903f1419"",
+  ""span_id"": ""span-db0415b9"",
+  ""latency_ms"": 7176.99,
+  ""usr_id"": ""user_7008dfd5"",
+  ""...
+```
+
+",Bug,Blocker,Open,Emily Clark,Patricia Farley,['frontend'],2025-04-05 23:30:06,,['frontend'],staging,False,,,,,
+DEVOPS-2504,nan in search-service,"## Issue Summary
+An nan error was detected in the search-service service.
+
+**Impact**: This issue is causing service disruption.
+
+**Environment**: staging
+
+## Related Logs
+```
+{
+  ""timestamp"": ""2025-04-05T09:34:47.820033"",
+  ""service"": ""search-service"",
+  ""level"": ""info"",
+  ""env"": ""staging"",
+  ""host"": ""search-service-4.uniteusapp.io"",
+  ""trace_id"": ""trace-c89aa178-f31f-47a6...
+---
+{
+  ""timestamp"": ""2025-04-05T09:25:51.067007"",
+  ""service"": ""search-service"",
+  ""component"": ""cache"",
+  ""level"": ""info"",
+  ""process_id"": 9491,
+  ""thread_id"": ""thread-48"",
+  ""request_id"": ""req-037d7686...
+---
+{
+  ""timestamp"": ""2025-04-05T09:35:59.262444"",
+  ""service"": ""search-service"",
+  ""component"": ""worker"",
+  ""level"": ""info"",
+  ""process_id"": 7225,
+  ""thread_id"": ""thread-2"",
+  ""request_id"": ""req-816da120...
+```
+
+## Steps to Reproduce
+1. Trigger the specific operation in the search-service service
+2. Access the endpoint nan
+3. Observe the error or performance degradation
+
+",Bug,Minor,Done,Robert Gomez,James Harris,['search-service'],2025-04-05 11:04:47,2025-04-08 09:04:47,['search-service'],staging,True,Database Issue,search-service,Fixed database connection pooling; Optimized query execution plan; Added index to improve query performance,Implement database monitoring; Regular database maintenance; Review query execution plans,Database issue affecting search-service service operations.
+SVCOPS-1174,TemplateNotFound in notification-service,"## Issue Summary
+An TemplateNotFound error was detected in the notification-service service.
+
+**Impact**: This issue is impacting system performance.
+
+**Environment**: staging
+
+## Related Logs
+```
+{
+  ""timestamp"": ""2025-04-05T13:10:42.665101"",
+  ""service"": ""notification-service"",
+  ""level"": ""critical"",
+  ""env"": ""staging"",
+  ""host"": ""notification-service-2.uniteusapp.io"",
+  ""trace_id"": ""trace-89...
+```
+
+",Bug,Blocker,Open,Samuel David,Paul Vazquez,['notification-service'],2025-04-05 14:41:42,,['notification-service'],staging,False,,,,,
+PERF-4491,AppCrashed in mobile-app,"## Issue Summary
+An AppCrashed error was detected in the mobile-app service.
+
+**Impact**: This issue is impacting system performance.
+
+**Environment**: production
+
+## Related Logs
+```
+{
+  ""timestamp"": ""2025-04-05T08:22:47.703559"",
+  ""service"": ""mobile-app"",
+  ""component"": ""scheduler"",
+  ""level"": ""critical"",
+  ""process_id"": 8161,
+  ""thread_id"": ""thread-93"",
+  ""request_id"": ""req-158a...
+```
+
+## Steps to Reproduce
+1. Trigger the specific operation in the mobile-app service
+2. Access the endpoint nan
+3. Observe the error or performance degradation
+
+",Bug,Critical,Done,Christopher Jones,Stacy Manning,['mobile-app'],2025-04-06 04:43:06,2025-04-11 06:43:06,['mobile-app'],production,True,Network Issue,mobile-app,Increased connection timeouts; Implemented retry mechanism; Added circuit breaker pattern,Improve network monitoring; Implement more robust error handling; Design for network failure resilience,Network connectivity issues impacting mobile-app service.
+DEVOPS-8131,PermissionDenied in referral-service,"## Issue Summary
+An PermissionDenied error was detected in the referral-service service.
+
+**Impact**: This issue is causing service disruption.
+
+**Environment**: production
+
+## Related Logs
+```
+{
+  ""timestamp"": ""2025-04-05T11:22:27.925842"",
+  ""service"": ""referral-service"",
+  ""level"": ""fatal"",
+  ""env"": ""development"",
+  ""host"": ""referral-service-5.uniteusapp.io"",
+  ""trace_id"": ""trace-2ada1787-...
+```
+
+## Steps to Reproduce
+1. Trigger the specific operation in the referral-service service
+2. Perform the complete_referral operation
+3. Observe the error or performance degradation
+
+",Incident,Critical,Done,Philip Huber,Alexis Miller,['referral-service'],2025-04-05 20:58:45,2025-04-11 17:58:45,['referral-service'],production,True,Security Issue,referral-service,Patched security vulnerability; Updated authentication mechanism; Implemented additional validation,Regular security audits; Implement security scanning in CI/CD; Developer security training,Security vulnerability in referral-service service.
+PERF-7060,admin-portal experiencing BulkOperationFailed,"## Issue Summary
+An BulkOperationFailed error was detected in the admin-portal service.
+
+**Impact**: This issue is resulting in intermittent failures.
+
+**Environment**: staging
+
+## Related Logs
+```
+{
+  ""timestamp"": ""2025-04-05T16:34:19.528020"",
+  ""service"": ""admin-portal"",
+  ""level"": ""critical"",
+  ""env"": ""staging"",
+  ""host"": ""admin-portal-2.uniteusapp.io"",
+  ""trace_id"": ""trace-e6a55456-2d50-4842-80e9-5e7c9ef583d0"",
+  ""span_id"": ""span-31d9c27c"",
+  ""latency_ms"": 9974.39,
+  ""usr_id"": ""user_284562...
+```
+
+## Steps to Reproduce
+1. Trigger the specific operation in the admin-portal service
+2. Access the endpoint nan
+3. Observe the error or performance degradation
+
+",Incident,Blocker,Closed,Ricardo Miller,Brianna Cortez,['admin-portal'],2025-04-05 18:27:19,2025-04-09 02:27:19,['admin-portal'],staging,True,Performance Bottleneck,admin-portal,Optimized database query to reduce response time; Added caching layer to improve performance; Implemented query optimization,Implement performance testing in CI pipeline; Set up alerting on response time degradation; Regular performance reviews,Performance bottleneck identified in admin-portal service.
+DEVOPS-5726,notification-service: nan causing service disruption,"## Issue Summary
+An nan error was detected in the notification-service service.
+
+**Impact**: This issue is affecting user experience.
+
+**Environment**: production
+
+## Related Logs
+```
+{
+  ""timestamp"": ""2025-04-05T16:07:30.400347"",
+  ""service"": ""notification-service"",
+  ""level"": ""debug"",
+  ""env"": ""production"",
+  ""host"": ""notification-service-1.uniteusapp.io"",
+  ""trace_id"": ""trace-d5fcb652-d700-4b0f-96cc-763a78a9c842"",
+  ""span_id"": ""span-bcbd316b"",
+  ""latency_ms"": 1009.79,
+  ""usr_i...
+```
+
+",Incident,Trivial,In Progress,Juan Graham,Laura Torres,['notification-service'],2025-04-05 17:41:30,,['notification-service'],production,True,Network Issue,notification-service,Increased connection timeouts; Implemented retry mechanism; Added circuit breaker pattern,Improve network monitoring; Implement more robust error handling; Design for network failure resilience,Network connectivity issues impacting notification-service service.
+UNITE-7588,mobile-app: CacheCorruption causing service disruption,"## Issue Summary
+An CacheCorruption error was detected in the mobile-app service.
+
+**Impact**: This issue is impacting system performance.
+
+**Environment**: production
+
+## Related Logs
+```
+{
+  ""timestamp"": ""2025-04-05T15:17:09.556775"",
+  ""service"": ""mobile-app"",
+  ""level"": ""critical"",
+  ""env"": ""production"",
+  ""host"": ""mobile-app-2.uniteusapp.io"",
+  ""trace_id"": ""trace-84401089-b883-4882-a8b7-1f850e989e76"",
+  ""span_id"": ""span-d8b458c7"",
+  ""latency_ms"": 5157.84,
+  ""usr_id"": ""user_8e3f303...
+```
+
+## Steps to Reproduce
+1. Trigger the specific operation in the mobile-app service
+2. Access the endpoint nan
+3. Observe the error or performance degradation
+
+",Bug,Blocker,Done,Matthew George,Connie Lam,['mobile-app'],2025-04-05 15:34:09,2025-04-08 20:34:09,['mobile-app'],production,True,Code Bug,mobile-app,Fixed conditional logic in mobile-app handler; Added unit tests to cover edge case; Deployed hotfix to production,Improve code review process; Add more comprehensive unit tests; Consider static code analysis,Issue was identified as a code bug in the mobile-app service.
+UUS-4769,api in auth-service failing with TokenExpired,"## Issue Summary
+An TokenExpired error was detected in the auth-service service.
+
+**Impact**: This issue is affecting user experience.
+
+**Environment**: production
+
+## Related Logs
+```
+{
+  ""timestamp"": ""2025-04-05T18:22:46.299926"",
+  ""service"": ""auth-service"",
+  ""component"": ""api"",
+  ""level"": ""error"",
+  ""process_id"": 3414,
+  ""thread_id"": ""thread-64"",
+  ""request_id"": ""req-bcf82870"",
+  ""operation"": ""update_session"",
+  ""message"": ""Error in auth-service.update_session: TokenExpired"",
+...
+```
+
+## Steps to Reproduce
+1. Trigger the specific operation in the auth-service service
+2. Perform the update_session operation
+3. Observe the error or performance degradation
+
+",Bug,Critical,Closed,Samantha Lee,Thomas Dixon,['auth-service'],2025-04-05 19:35:46,2025-04-09 13:35:46,['auth-service'],production,True,Configuration Error,auth-service,Updated configuration parameters; Corrected environment variables; Redeployed service with proper settings,Implement configuration validation; Add configuration tests in deployment pipeline; Document configuration requirements,Misconfiguration in auth-service service settings.
+UUS-6079,nan detected in frontend service,"## Issue Summary
+An nan error was detected in the frontend service.
+
+**Impact**: This issue is resulting in intermittent failures.
+
+**Environment**: development
+
+## Related Logs
+```
+{
+  ""timestamp"": ""2025-04-05T17:03:53.691753"",
+  ""service"": ""frontend"",
+  ""level"": ""warn"",
+  ""env"": ""development"",
+  ""host"": ""frontend-2.uniteusapp.io"",
+  ""trace_id"": ""trace-df56ab14-73de-420c-9172-aa5c42488a1d"",
+  ""span_id"": ""span-b8b7b006"",
+  ""latency_ms"": 1613.19,
+  ""usr_id"": ""user_5854da51"",
+  ""...
+```
+
+## Steps to Reproduce
+1. Trigger the specific operation in the frontend service
+2. Access the endpoint nan
+3. Observe the error or performance degradation
+
+",Bug,Major,Done,Cathy Mathews,Laura Johns,['frontend'],2025-04-05 17:53:53,2025-04-09 06:53:53,['frontend'],development,True,Memory Leak,frontend,Fixed resource cleanup in service; Added proper object disposal; Optimized memory usage,Memory profiling in testing; Set up memory usage monitoring; Regular performance reviews,Memory leak detected in frontend service.
+PERF-6003,frontend: nan causing service disruption,"## Issue Summary
+An nan error was detected in the frontend service.
+
+**Impact**: This issue is causing data inconsistency.
+
+**Environment**: production
+
+## Related Logs
+```
+{
+  ""timestamp"": ""2025-04-05T19:34:05.625487"",
+  ""service"": ""frontend"",
+  ""level"": ""warning"",
+  ""env"": ""production"",
+  ""host"": ""frontend-1.uniteusapp.io"",
+  ""trace_id"": ""trace-e0e31fec-5993-4fdf-9492-7b6e09c3728a"",
+  ""span_id"": ""span-4cceb9ef"",
+  ""latency_ms"": 1417.26,
+  ""usr_id"": NaN,
+  ""usr_ip"": N...
+```
+
+",Incident,Major,Open,Caitlin York,Andrea Washington,['frontend'],2025-04-05 20:55:05,,['frontend'],production,True,Performance Bottleneck,frontend,Optimized database query to reduce response time; Added caching layer to improve performance; Implemented query optimization,Implement performance testing in CI pipeline; Set up alerting on response time degradation; Regular performance reviews,Performance bottleneck identified in frontend service.
+DEVOPS-9941,StateManagementFailure in frontend/api,"## Issue Summary
+An StateManagementFailure error was detected in the frontend service.
+
+**Impact**: This issue is affecting user experience.
+
+**Environment**: production
+
+## Related Logs
+```
+{
+  ""timestamp"": ""2025-04-06T05:24:27.331145"",
+  ""service"": ""frontend"",
+  ""component"": ""api"",
+  ""level"": ""error"",
+  ""process_id"": 7607,
+  ""thread_id"": ""thread-30"",
+  ""request_id"": ""req-a6d4794a"",
+  ""operation"": ""render_page"",
+  ""message"": ""Database error during render_page: StateManagementFailure"",
+...
+```
+
+## Steps to Reproduce
+1. Trigger the specific operation in the frontend service
+2. Perform the render_page operation
+3. Observe the error or performance degradation
+
+",Bug,Critical,Code Review,Bailey Rivera,Ryan Wilkerson,['frontend'],2025-04-06 06:56:27,2025-04-13 04:56:27,['frontend'],production,True,Code Bug,frontend,Fixed conditional logic in frontend handler; Added unit tests to cover edge case; Deployed hotfix to production,Improve code review process; Add more comprehensive unit tests; Consider static code analysis,Issue was identified as a code bug in the frontend service.
+PERF-3861,nan in frontend,"## Issue Summary
+An nan error was detected in the frontend service.
+
+**Impact**: This issue is impacting system performance.
+
+**Environment**: production
+
+## Related Logs
+```
+{
+  ""timestamp"": ""2025-04-05T19:34:05.625487"",
+  ""service"": ""frontend"",
+  ""level"": ""warning"",
+  ""env"": ""production"",
+  ""host"": ""frontend-1.uniteusapp.io"",
+  ""trace_id"": ""trace-e0e31fec-5993-4fdf-9492-7b6e09c3728a"",
+  ""span_id"": ""span-4cceb9ef"",
+  ""latency_ms"": 1417.26,
+  ""usr_id"": NaN,
+  ""usr_ip"": N...
+```
+
+## Steps to Reproduce
+1. Trigger the specific operation in the frontend service
+2. Access the endpoint nan
+3. Observe the error or performance degradation
+
+",Incident,Major,Closed,Samantha Barber,Kathy Davis MD,['frontend'],2025-04-05 20:40:05,2025-04-10 22:40:05,['frontend'],production,True,Memory Leak,frontend,Fixed resource cleanup in service; Added proper object disposal; Optimized memory usage,Memory profiling in testing; Set up memory usage monitoring; Regular performance reviews,Memory leak detected in frontend service.
+UUS-5904,TokenExpired in auth-service,"## Issue Summary
+An TokenExpired error was detected in the auth-service service.
+
+**Impact**: This issue is causing data inconsistency.
+
+**Environment**: production
+
+## Related Logs
+```
+{
+  ""timestamp"": ""2025-04-06T01:03:35.322282"",
+  ""service"": ""auth-service"",
+  ""level"": ""fatal"",
+  ""env"": ""production"",
+  ""host"": ""auth-service-2.uniteusapp.io"",
+  ""trace_id"": ""trace-9a14e7fa-4e05-4ddb-b375-7a80cd974d1c"",
+  ""span_id"": ""span-a6b86fd3"",
+  ""latency_ms"": 9945.88,
+  ""usr_id"": ""user_01e514...
+```
+
+",Bug,Blocker,Open,Douglas Adams,Keith Spence,['auth-service'],2025-04-06 02:36:35,,['auth-service'],production,False,,,,,
+UNITE-2899,PermissionDenied detected in admin-portal service,"## Issue Summary
+An PermissionDenied error was detected in the admin-portal service.
+
+**Impact**: This issue is affecting user experience.
+
+**Environment**: production
+
+## Related Logs
+```
+{
+  ""timestamp"": ""2025-04-05T08:10:08.397303"",
+  ""service"": ""admin-portal"",
+  ""component"": ""worker"",
+  ""level"": ""fatal"",
+  ""process_id"": 8826,
+  ""thread_id"": ""thread-44"",
+  ""request_id"": ""req-2ecdb9c2...
+```
+
+## Steps to Reproduce
+1. Trigger the specific operation in the admin-portal service
+2. Perform the bulk_update operation
+3. Observe the error or performance degradation
+
+",Incident,Blocker,Done,Jason Kelly,Carla Perry,['admin-portal'],2025-04-05 12:42:50,2025-04-09 06:42:50,['admin-portal'],production,True,Code Bug,admin-portal,Fixed conditional logic in admin-portal handler; Added unit tests to cover edge case; Deployed hotfix to production,Improve code review process; Add more comprehensive unit tests; Consider static code analysis,Issue was identified as a code bug in the admin-portal service.
+DEVOPS-5276,ServiceUnavailable in api-gateway/db,"## Issue Summary
+An ServiceUnavailable error was detected in the api-gateway service.
+
+**Impact**: This issue is impacting system performance.
+
+**Environment**: production
+
+## Related Logs
+```
+{
+  ""timestamp"": ""2025-04-05T23:58:32.393321"",
+  ""service"": ""api-gateway"",
+  ""component"": ""db"",
+  ""level"": ""error"",
+  ""process_id"": 8315,
+  ""thread_id"": ""thread-73"",
+  ""request_id"": ""req-b60b22c1"",
+  ""operation"": ""rate_limit"",
+  ""message"": ""Error in api-gateway.rate_limit: ServiceUnavailable"",
+  ""us...
+```
+
+## Steps to Reproduce
+1. Trigger the specific operation in the api-gateway service
+2. Perform the rate_limit operation
+3. Observe the error or performance degradation
+
+",Incident,Critical,Done,Nicholas Hernandez,Michelle Smith,['api-gateway'],2025-04-06 00:33:32,2025-04-12 14:33:32,['api-gateway'],production,True,Resource Limitation,api-gateway,Increased connection pool allocation; Optimized resource usage; Implemented backpressure mechanism,Set up resource monitoring; Implement autoscaling; Load testing to determine limits,Resource limitations in api-gateway service.
+UUS-1021,DataFetchFailed detected in reporting-service service,"## Issue Summary
+An DataFetchFailed error was detected in the reporting-service service.
+
+**Impact**: This issue is impacting system performance.
+
+**Environment**: production
+
+## Related Logs
+```
+{
+  ""timestamp"": ""2025-04-05T11:24:36.816229"",
+  ""service"": ""reporting-service"",
+  ""level"": ""info"",
+  ""env"": ""production"",
+  ""host"": ""reporting-service-4.uniteusapp.io"",
+  ""trace_id"": ""trace-24a179a6-...
+---
+{
+  ""timestamp"": ""2025-04-05T11:07:22.692236"",
+  ""service"": ""reporting-service"",
+  ""component"": ""scheduler"",
+  ""level"": ""info"",
+  ""process_id"": 6478,
+  ""thread_id"": ""thread-57"",
+  ""request_id"": ""req-d...
+```
+
+## Steps to Reproduce
+1. Trigger the specific operation in the reporting-service service
+2. Perform the export_report operation
+3. Observe the error or performance degradation
+
+",Incident,Blocker,Done,Stephanie Woods,Pamela Garrett,['reporting-service'],2025-04-05 11:35:43,2025-04-08 20:35:43,['reporting-service'],production,True,Memory Leak,reporting-service,Fixed resource cleanup in service; Added proper object disposal; Optimized memory usage,Memory profiling in testing; Set up memory usage monitoring; Regular performance reviews,Memory leak detected in reporting-service service.
+UUS-9162,InvalidReferralStatus in referral-service/db,"## Issue Summary
+An InvalidReferralStatus error was detected in the referral-service service.
+
+**Impact**: This issue is causing service disruption.
+
+**Environment**: production
+
+## Related Logs
+```
+{
+  ""timestamp"": ""2025-04-06T05:46:47.875560"",
+  ""service"": ""referral-service"",
+  ""component"": ""db"",
+  ""level"": ""fatal"",
+  ""process_id"": 8345,
+  ""thread_id"": ""thread-77"",
+  ""request_id"": ""req-4137912e"",
+  ""operation"": ""update_status"",
+  ""message"": ""Error in referral-service.update_status: InvalidRef...
+```
+
+## Steps to Reproduce
+1. Trigger the specific operation in the referral-service service
+2. Perform the update_status operation
+3. Observe the error or performance degradation
+
+",Bug,Blocker,Done,Thomas Gilbert,Christian Freeman II,['referral-service'],2025-04-06 06:28:47,2025-04-11 11:28:47,['referral-service'],production,True,Code Bug,referral-service,Fixed conditional logic in referral-service handler; Added unit tests to cover edge case; Deployed hotfix to production,Improve code review process; Add more comprehensive unit tests; Consider static code analysis,Issue was identified as a code bug in the referral-service service.
+DEVOPS-2169,mobile-app: AppCrashed causing service disruption,"## Issue Summary
+An AppCrashed error was detected in the mobile-app service.
+
+**Impact**: This issue is causing data inconsistency.
+
+**Environment**: production
+
+## Related Logs
+```
+{
+  ""timestamp"": ""2025-04-05T08:22:47.703559"",
+  ""service"": ""mobile-app"",
+  ""component"": ""scheduler"",
+  ""level"": ""critical"",
+  ""process_id"": 8161,
+  ""thread_id"": ""thread-93"",
+  ""request_id"": ""req-158a...
+```
+
+## Steps to Reproduce
+1. Trigger the specific operation in the mobile-app service
+2. Perform the push_registration operation
+3. Observe the error or performance degradation
+
+",Bug,Blocker,Testing,Jeremy Larson,David Reynolds,['mobile-app'],2025-04-05 09:26:47,2025-04-06 04:26:47,['mobile-app'],production,True,Memory Leak,mobile-app,Fixed resource cleanup in service; Added proper object disposal; Optimized memory usage,Memory profiling in testing; Set up memory usage monitoring; Regular performance reviews,Memory leak detected in mobile-app service.
+INFRA-7116,BulkOperationFailed in admin-portal/api,"## Issue Summary
+An BulkOperationFailed error was detected in the admin-portal service.
+
+**Impact**: This issue is causing service disruption.
+
+**Environment**: production
+
+## Related Logs
+```
+{
+  ""timestamp"": ""2025-04-06T01:44:34.595390"",
+  ""service"": ""admin-portal"",
+  ""component"": ""api"",
+  ""level"": ""fatal"",
+  ""process_id"": 6772,
+  ""thread_id"": ""thread-98"",
+  ""request_id"": ""req-767cebb4"",
+  ""operation"": ""system_configuration"",
+  ""message"": ""Error in admin-portal.system_configuration: Bul...
+```
+
+## Steps to Reproduce
+1. Trigger the specific operation in the admin-portal service
+2. Perform the system_configuration operation
+3. Observe the error or performance degradation
+
+",Bug,Blocker,Done,Larry Clark,Benjamin Reyes,['admin-portal'],2025-04-06 03:42:34,2025-04-10 01:42:34,['admin-portal'],production,True,Performance Bottleneck,admin-portal,Optimized API endpoint to reduce response time; Added caching layer to improve performance; Implemented query optimization,Implement performance testing in CI pipeline; Set up alerting on response time degradation; Regular performance reviews,Performance bottleneck identified in admin-portal service.
+DEVOPS-7539,nan in notification-service,"## Issue Summary
+An nan error was detected in the notification-service service.
+
+**Impact**: This issue is causing service disruption.
+
+**Environment**: development
+
+## Related Logs
+```
+{
+  ""timestamp"": ""2025-04-06T01:45:36.168155"",
+  ""service"": ""notification-service"",
+  ""level"": ""info"",
+  ""env"": ""development"",
+  ""host"": ""notification-service-3.uniteusapp.io"",
+  ""trace_id"": ""trace-b97e2cca-7cbd-41e7-92c2-0136097b7399"",
+  ""span_id"": ""span-896dbb62"",
+  ""latency_ms"": 1175.65,
+  ""usr_i...
+```
+
+## Steps to Reproduce
+1. Trigger the specific operation in the notification-service service
+2. Access the endpoint nan
+3. Observe the error or performance degradation
+
+",Incident,Minor,Done,Monique Freeman,Edward Turner,['notification-service'],2025-04-06 01:53:36,2025-04-12 13:53:36,['notification-service'],development,True,Resource Limitation,notification-service,Increased disk I/O allocation; Optimized resource usage; Implemented backpressure mechanism,Set up resource monitoring; Implement autoscaling; Load testing to determine limits,Resource limitations in notification-service service.
+INFRA-8713,frontend: nan causing service disruption,"## Issue Summary
+An nan error was detected in the frontend service.
+
+**Impact**: This issue is affecting user experience.
+
+**Environment**: development
+
+## Related Logs
+```
+{
+  ""timestamp"": ""2025-04-05T17:03:53.691753"",
+  ""service"": ""frontend"",
+  ""level"": ""warn"",
+  ""env"": ""development"",
+  ""host"": ""frontend-2.uniteusapp.io"",
+  ""trace_id"": ""trace-df56ab14-73de-420c-9172-aa5c42488a1d"",
+  ""span_id"": ""span-b8b7b006"",
+  ""latency_ms"": 1613.19,
+  ""usr_id"": ""user_5854da51"",
+  ""...
+```
+
+## Steps to Reproduce
+1. Trigger the specific operation in the frontend service
+2. Access the endpoint nan
+3. Observe the error or performance degradation
+
+",Incident,Major,Done,Christopher Keller,Dr. Clayton Leonard,['frontend'],2025-04-05 17:29:53,2025-04-09 00:29:53,['frontend'],development,True,Memory Leak,frontend,Fixed resource cleanup in service; Added proper object disposal; Optimized memory usage,Memory profiling in testing; Set up memory usage monitoring; Regular performance reviews,Memory leak detected in frontend service.
+DEVOPS-3673,PermissionDenied in admin-portal,"## Issue Summary
+An PermissionDenied error was detected in the admin-portal service.
+
+**Impact**: This issue is causing service disruption.
+
+**Environment**: production
+
+## Related Logs
+```
+{
+  ""timestamp"": ""2025-04-05T08:10:08.397303"",
+  ""service"": ""admin-portal"",
+  ""component"": ""worker"",
+  ""level"": ""fatal"",
+  ""process_id"": 8826,
+  ""thread_id"": ""thread-44"",
+  ""request_id"": ""req-2ecdb9c2...
+```
+
+",Bug,Blocker,Testing,Daniel Alexander,Ryan Hernandez,['admin-portal'],2025-04-05 21:56:37,,['admin-portal'],production,False,,,,,
+UNITE-1990,ComponentCrashed in frontend,"## Issue Summary
+An ComponentCrashed error was detected in the frontend service.
+
+**Impact**: This issue is causing service disruption.
+
+**Environment**: production
+
+## Related Logs
+```
+{
+  ""timestamp"": ""2025-04-05T14:37:58.987972"",
+  ""service"": ""frontend"",
+  ""component"": ""scheduler"",
+  ""level"": ""critical"",
+  ""process_id"": 2211,
+  ""thread_id"": ""thread-79"",
+  ""request_id"": ""req-85324949"",
+  ""operation"": ""load_data"",
+  ""message"": ""Error in frontend.load_data: ComponentCrashed"",
+  ""us...
+```
+
+## Steps to Reproduce
+1. Trigger the specific operation in the frontend service
+2. Perform the load_data operation
+3. Observe the error or performance degradation
+
+",Incident,Blocker,Done,Melissa Cantrell,Kevin Madden,['frontend'],2025-04-05 16:34:58,2025-04-10 23:34:58,['frontend'],production,True,Memory Leak,frontend,Fixed resource cleanup in service; Added proper object disposal; Optimized memory usage,Memory profiling in testing; Set up memory usage monitoring; Regular performance reviews,Memory leak detected in frontend service.
+UUS-9485,api-gateway: nan causing service disruption,"## Issue Summary
+An nan error was detected in the api-gateway service.
+
+**Impact**: This issue is causing data inconsistency.
+
+**Environment**: development
+
+## Related Logs
+```
+{
+  ""timestamp"": ""2025-04-05T19:10:48.085860"",
+  ""service"": ""api-gateway"",
+  ""level"": ""warn"",
+  ""env"": ""development"",
+  ""host"": ""api-gateway-1.uniteusapp.io"",
+  ""trace_id"": ""trace-15623539-614b-4da8-b295-c7702b47e494"",
+  ""span_id"": ""span-22308889"",
+  ""latency_ms"": 1805.86,
+  ""usr_id"": ""user_7ea4b37b...
+```
+
+",Incident,Major,Open,Savannah Howell,Karen Hart,['api-gateway'],2025-04-05 20:57:48,,['api-gateway'],development,True,Network Issue,api-gateway,Increased connection timeouts; Implemented retry mechanism; Added circuit breaker pattern,Improve network monitoring; Implement more robust error handling; Design for network failure resilience,Network connectivity issues impacting api-gateway service.
