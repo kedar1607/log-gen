@@ -245,18 +245,30 @@ class RCAPredictor:
         # Prepare X (features) and y (labels)
         X = train_issues['processed_text']
         
-        # Extract root cause from RCA
-        def extract_root_cause(rca_json):
-            try:
-                if isinstance(rca_json, str):
-                    rca = json.loads(rca_json)
-                else:
-                    rca = rca_json
-                return rca.get('root_cause_category', '')
-            except:
-                return ''
-        
-        train_issues['root_cause'] = train_issues['rca'].apply(extract_root_cause)
+        # Use the root cause category directly from the CSV
+        # Check if we have a structured RCA column or separate columns
+        if 'rca_root_cause_category' in train_issues.columns:
+            # Use the direct column if available
+            train_issues['root_cause'] = train_issues['rca_root_cause_category']
+            logger.info("Using rca_root_cause_category column for training")
+        elif 'rca' in train_issues.columns:
+            # Extract root cause from RCA JSON
+            def extract_root_cause(rca_json):
+                try:
+                    if isinstance(rca_json, str):
+                        rca = json.loads(rca_json)
+                    else:
+                        rca = rca_json
+                    return rca.get('root_cause_category', '')
+                except:
+                    return ''
+            
+            train_issues['root_cause'] = train_issues['rca'].apply(extract_root_cause)
+            logger.info("Using rca JSON column for training")
+        else:
+            # Fallback to empty values
+            logger.error("No RCA column found in training data!")
+            train_issues['root_cause'] = ''
         
         # One-hot encode the root causes
         y = pd.get_dummies(train_issues['root_cause'])
@@ -445,7 +457,22 @@ class RCAPredictor:
             }
             
             # Update issue with prediction
-            issue_dict['rca'] = json.dumps(rca_prediction)
+            # Store the prediction in the right columns based on what we have in the CSV
+            if 'rca_root_cause_category' in issues_df.columns:
+                # Use separate columns for RCA data
+                issue_dict['rca_root_cause_category'] = predicted_class
+                issue_dict['rca_description'] = f"ML Predicted with {max_prob:.2f} confidence"
+                # Handle empty important_features
+                if important_features and len(important_features) > 0:
+                    issue_dict['rca_affected_components'] = ', '.join([f.get('feature', '') for f in important_features[:3]])
+                else:
+                    issue_dict['rca_affected_components'] = ''
+                issue_dict['rca_resolution_steps'] = "Automatically predicted by ML model"
+                issue_dict['rca_prevention_steps'] = "See important features for prevention ideas"
+            else:
+                # Store as JSON in 'rca' column
+                issue_dict['rca'] = json.dumps(rca_prediction)
+                
             issue_dict['predicted_rca'] = True
             issue_dict['rca_confidence'] = float(max_prob)
             
